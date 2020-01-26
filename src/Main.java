@@ -29,7 +29,7 @@ public class Main extends Window {
         button1 = new Button(() -> System.out.println("apple"), -10, 7);
         button2 = new Button(() -> System.out.println("carrot"), 300, 300);
 
-        canvas = new Canvas(100, 100);
+        canvas = new Canvas(300, 300);
         canvas.setLocation(200, 200);
 
         text = new TextField(10, 500, 500);
@@ -51,16 +51,17 @@ public class Main extends Window {
             g2d.setColor(Color.BLUE);
             g2d.fillRect(0, 0, 320, 400);
         });
-        draw(a);
-        draw(b);
-        draw(c);
-        draw(d);
 
         draw(button2);
 
         canvas.draw(button1);
         canvas.redraw();
         draw(canvas);
+
+        draw(a);
+        draw(b);
+        draw(c);
+        draw(d);
 
         draw(text);
 

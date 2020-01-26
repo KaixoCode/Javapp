@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import javapp.core.Canvas;
 import javapp.objects.Typeable;
 
 public class TextField implements Typeable {
@@ -17,6 +18,8 @@ public class TextField implements Typeable {
     private Font font;
 
     private Graphics2D graphics;
+
+    private Canvas canvas;
 
     private int width;
     private int height;
@@ -31,7 +34,7 @@ public class TextField implements Typeable {
 
     private int paddingX = 5;
 
-    private int paddingY = 3;
+    private int paddingY = 5;
 
     private int textSize;
 
@@ -43,8 +46,10 @@ public class TextField implements Typeable {
         this.x = x;
         this.y = y;
         this.width = width;
-        this.height = font.getSize() + 5;
+        this.height = font.getSize() + paddingY * 2;
         content = new TypingHandler();
+        canvas = new Canvas(this.width, this.height);
+        this.font = font;
     }
 
     @Override
@@ -121,33 +126,51 @@ public class TextField implements Typeable {
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
-        graphics = g2d;
-        g2d.setFont(font);
-        g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(2));
-        g2d.drawRect(x, y, width, height);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, width, height);
+    public void draw(Graphics2D g) {
+        graphics = canvas.getGraphics();
 
-        int typeX = this.x + g2d.getFontMetrics().stringWidth(content.text.substring(0, content.typePos)) + paddingX;
-        int selectX = this.x + g2d.getFontMetrics().stringWidth(content.text.substring(0, content.selectPos))
-                + paddingX;
-        g2d.setColor(new Color(200, 220, 240));
-        if (typeX < selectX) {
-            g2d.fillRect(typeX, this.y + paddingY, selectX - typeX, height - paddingY * 2);
-        } else {
-            g2d.fillRect(selectX, this.y + paddingY, typeX - selectX, height - paddingY * 2);
+        g.drawImage(canvas.getImage(), x, y, null);
 
-        }
+        canvas.draw((g2d) -> {
+            g2d.setFont(font);
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0, 0, width, height);
 
-        int x = this.x + paddingX;
-        int y = this.y + (height / 2) + (g2d.getFontMetrics().getHeight() / 4);
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(content.text, x, y);
-        g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(1));
-        g2d.drawLine(typeX, this.y + paddingY, typeX, this.y + height - paddingY * 2);
+            int[] coords = getCoordsFromIndex(content.typePos);
+            if (coords[0] > width - paddingX * 2) {
+                g2d.translate(-(coords[0] - width + paddingX * 2), 0);
+            }
+
+            int typeX = g2d.getFontMetrics().stringWidth(content.text.substring(0, content.typePos)) + paddingX;
+            int selectX = g2d.getFontMetrics().stringWidth(content.text.substring(0, content.selectPos)) + paddingX;
+            g2d.setColor(new Color(200, 220, 240));
+            if (typeX < selectX) {
+                g2d.fillRect(typeX, paddingY, selectX - typeX, height - paddingY * 2);
+            } else {
+                g2d.fillRect(selectX, paddingY, typeX - selectX, height - paddingY * 2);
+            }
+
+            int x = paddingX;
+            int y = (height / 2) + (g2d.getFontMetrics().getHeight() / 4);
+            g2d.setColor(Color.BLACK);
+            g2d.drawString(content.text, x, y);
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(1));
+            if (focused) {
+                g2d.drawLine(typeX, paddingY / 2, typeX, height - paddingY);
+            }
+
+            if (coords[0] > width - paddingX * 2) {
+                g2d.translate((coords[0] - width + paddingX * 2), 0);
+            }
+
+            g2d.setColor(Color.BLACK);
+            g2d.setStroke(new BasicStroke(2));
+            g2d.drawRect(-1, -1, width, height);
+        });
+
+        canvas.redraw();
+
     }
 
     @Override
@@ -214,7 +237,6 @@ public class TextField implements Typeable {
     }
 
     // Get the x, y on the pane using the index in the text
-    @SuppressWarnings("unused")
     private int[] getCoordsFromIndex(int i) {
 
         // Get all text before given index. Add a space to make
