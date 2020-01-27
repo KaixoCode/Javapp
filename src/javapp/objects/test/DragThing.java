@@ -5,9 +5,10 @@ import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import javapp.graphics.transition.ColorTransition;
 import javapp.objects.Focusable;
 
-public class DragThing implements Focusable {
+public class DragThing extends Focusable {
 
     private int x = 0;
     private int y = 0;
@@ -16,20 +17,21 @@ public class DragThing implements Focusable {
     private int width = 100;
     private int height = 100;
 
-    private boolean pressed = false;
-    private boolean hovering = false;
-    private boolean focused = false;
+    private ColorTransition color;
+
+    private Color idle = new Color(0, 0, 0);
+    private Color hover = new Color(30, 30, 30);
+    private Color drag = new Color(90, 90, 90);
 
     public DragThing() {
-
+        color = new ColorTransition(idle, 0.2);
     }
 
     @Override
-    public void mousePress(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
+        color.morph(drag);
         this.dx = this.x - e.getX();
         this.dy = this.y - e.getY();
-
-        pressed = true;
     }
 
     @Override
@@ -65,23 +67,21 @@ public class DragThing implements Focusable {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(color.getValue());
         g2d.fillRect(x, y, width, height);
     }
 
     @Override
-    public boolean isPressed() {
-        return pressed;
+    public void mouseReleased(MouseEvent e) {
+        if (isHovering()) {
+            color.morph(hover);
+        } else {
+            color.morph(idle);
+        }
     }
 
     @Override
-    public void mouseRelease(MouseEvent e) {
-        pressed = false;
-    }
-
-    @Override
-    public void mouseClick(MouseEvent e) {
-
+    public void mouseClicked(MouseEvent e) {
     }
 
     @Override
@@ -90,37 +90,17 @@ public class DragThing implements Focusable {
     }
 
     @Override
-    public void mouseEnter() {
-        hovering = true;
+    public void mouseEntered() {
+        color.morph(hover);
     }
 
     @Override
-    public void mouseExit() {
-        hovering = false;
-    }
-
-    @Override
-    public boolean isHovering() {
-        return hovering;
+    public void mouseExited() {
+        color.morph(idle);
     }
 
     @Override
     public void mouseMove(MouseEvent e) {
 
-    }
-
-    @Override
-    public void unfocus() {
-        focused = false;
-    }
-
-    @Override
-    public void focus() {
-        focused = true;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focused;
     }
 }

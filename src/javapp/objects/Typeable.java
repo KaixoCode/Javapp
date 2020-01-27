@@ -2,12 +2,12 @@ package javapp.objects;
 
 import java.awt.event.KeyEvent;
 
-public interface Typeable extends Focusable {
+public abstract class Typeable extends Focusable {
 
-    public void keyPress(KeyEvent e);
+    public abstract void keyPress(KeyEvent e);
 
-    public void keyRelease(KeyEvent e);
+    public abstract void keyRelease(KeyEvent e);
 
-    public void keyType(KeyEvent e);
+    public abstract void keyType(KeyEvent e);
 
 }

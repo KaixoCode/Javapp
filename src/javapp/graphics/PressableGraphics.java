@@ -1,4 +1,4 @@
-package javapp.objects.visuals;
+package javapp.graphics;
 
 import java.awt.Graphics2D;
 

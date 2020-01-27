@@ -14,7 +14,7 @@ import javapp.objects.Drawable;
 import javapp.objects.Focusable;
 import javapp.objects.Hoverable;
 
-public class Canvas implements EventDistributer, Focusable {
+public class Canvas extends Focusable implements EventDistributer {
 
     // The size of the canvas
     private int width;
@@ -34,10 +34,6 @@ public class Canvas implements EventDistributer, Focusable {
 
     // Handles all the events
     private EventHandler handler;
-
-    private boolean pressed = false;
-    private boolean hovering = false;
-    private boolean focused = false;
 
     /**
      * Creates a canvas.
@@ -162,21 +158,6 @@ public class Canvas implements EventDistributer, Focusable {
     }
 
     @Override
-    public boolean isPressed() {
-        return pressed;
-    }
-
-    @Override
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focused;
-    }
-
-    @Override
     public boolean withinBounds(int x, int y) {
         return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
     }
@@ -205,13 +186,11 @@ public class Canvas implements EventDistributer, Focusable {
     }
 
     @Override
-    public void mouseEnter() {
-        hovering = true;
+    public void mouseEntered() {
     }
 
     @Override
-    public void mouseExit() {
-        hovering = false;
+    public void mouseExited() {
 
         // Get all the drawables from the canvas
         ArrayList<Drawable> hoverables = new ArrayList<Drawable>(getDrawables());
@@ -227,39 +206,24 @@ public class Canvas implements EventDistributer, Focusable {
     }
 
     @Override
-    public void mousePress(MouseEvent e) {
-        pressed = true;
+    public void mousePressed(MouseEvent e) {
     }
 
     @Override
-    public void mouseClick(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
     }
 
     @Override
-    public void mouseRelease(MouseEvent e) {
-        pressed = false;
+    public void mouseReleased(MouseEvent e) {
     }
 
     @Override
     public void mouseMove(MouseEvent e) {
-        // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public void unfocus() {
-        focused = false;
-    }
-
-    @Override
-    public void focus() {
-        focused = true;
     }
 
     @Override
     public void drag(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
 
+    }
 }

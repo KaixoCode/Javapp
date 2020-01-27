@@ -11,9 +11,9 @@ import java.awt.event.MouseEvent;
 import javapp.core.Canvas;
 import javapp.objects.Typeable;
 
-public class TextField implements Typeable {
+public class TextField extends Typeable {
 
-    private TypingHandler content;
+    private TextHandler content;
 
     private Font font;
 
@@ -25,10 +25,6 @@ public class TextField implements Typeable {
     private int height;
     private int x;
     private int y;
-
-    private boolean pressed = false;
-    private boolean hovering = false;
-    private boolean focused = false;
 
     private int textLeading;
 
@@ -47,37 +43,32 @@ public class TextField implements Typeable {
         this.y = y;
         this.width = width;
         this.height = font.getSize() + paddingY * 2;
-        content = new TypingHandler();
+        content = new TextHandler();
         canvas = new Canvas(this.width, this.height);
         this.font = font;
     }
 
     @Override
-    public void mousePress(MouseEvent e) {
-        pressed = true;
-
+    public void mousePressed(MouseEvent e) {
         content.typePos = getIndexFromCoords(e.getX(), e.getY());
         content.selectPos = getIndexFromCoords(e.getX(), e.getY());
     }
 
     @Override
-    public void mouseClick(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseRelease(MouseEvent e) {
-        pressed = false;
+    public void mouseReleased(MouseEvent e) {
     }
 
     @Override
-    public void mouseEnter() {
-        hovering = true;
+    public void mouseEntered() {
     }
 
     @Override
-    public void mouseExit() {
-        hovering = false;
+    public void mouseExited() {
     }
 
     @Override
@@ -93,16 +84,6 @@ public class TextField implements Typeable {
     @Override
     public void keyType(KeyEvent e) {
         content.typeKey(e);
-    }
-
-    @Override
-    public boolean isPressed() {
-        return pressed;
-    }
-
-    @Override
-    public boolean isHovering() {
-        return hovering;
     }
 
     @Override
@@ -156,7 +137,7 @@ public class TextField implements Typeable {
             g2d.drawString(content.text, x, y);
             g2d.setColor(Color.BLACK);
             g2d.setStroke(new BasicStroke(1));
-            if (focused) {
+            if (isFocused()) {
                 g2d.drawLine(typeX, paddingY / 2, typeX, height - paddingY);
             }
 
@@ -186,21 +167,6 @@ public class TextField implements Typeable {
     @Override
     public void mouseMove(MouseEvent e) {
 
-    }
-
-    @Override
-    public void unfocus() {
-        focused = false;
-    }
-
-    @Override
-    public void focus() {
-        focused = true;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focused;
     }
 
     // Get the index from the coords on the textarea

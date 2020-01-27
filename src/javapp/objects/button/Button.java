@@ -5,26 +5,21 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javapp.core.Method;
+import javapp.graphics.HoverableGraphics;
+import javapp.graphics.PressableGraphics;
 import javapp.objects.Drawable;
 import javapp.objects.Focusable;
-import javapp.objects.visuals.HoverableGraphics;
-import javapp.objects.visuals.PressableGraphics;
 
 /**
  * Simple Button class.
  */
-public class Button implements Drawable, Focusable {
+public class Button extends Focusable {
 
     // Location and size of the button
     private int x;
     private int y;
     private int width;
     private int height;
-
-    // True if the button is currently being pressed
-    private boolean pressed = false;
-    private boolean hovering = false;
-    private boolean focused = false;
 
     // The method to execute when the button is clicked on
     private Method method;
@@ -171,41 +166,37 @@ public class Button implements Drawable, Focusable {
     }
 
     @Override
-    public void mouseClick(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
         if (method != null) {
             method.execute();
         }
     }
 
     @Override
-    public void mouseEnter() {
-        hovering = true;
+    public void mouseEntered() {
         if (visuals instanceof HoverableGraphics) {
             ((HoverableGraphics) visuals).setState(HoverableGraphics.HOVERING);
         }
     }
 
     @Override
-    public void mouseExit() {
-        hovering = false;
+    public void mouseExited() {
         if (visuals instanceof HoverableGraphics) {
             ((HoverableGraphics) visuals).setState(HoverableGraphics.IDLE);
         }
     }
 
     @Override
-    public void mousePress(MouseEvent e) {
-        pressed = true;
+    public void mousePressed(MouseEvent e) {
         if (visuals instanceof PressableGraphics) {
             ((PressableGraphics) visuals).setState(PressableGraphics.PRESSING);
         }
     }
 
     @Override
-    public void mouseRelease(MouseEvent e) {
-        pressed = false;
+    public void mouseReleased(MouseEvent e) {
         if (visuals instanceof HoverableGraphics) {
-            if (hovering) {
+            if (isHovering()) {
                 ((HoverableGraphics) visuals).setState(HoverableGraphics.HOVERING);
             } else {
                 ((HoverableGraphics) visuals).setState(HoverableGraphics.IDLE);
@@ -214,43 +205,16 @@ public class Button implements Drawable, Focusable {
     }
 
     @Override
-    public boolean isPressed() {
-        return pressed;
-    }
-
-    @Override
     public int getCursor() {
         return Cursor.HAND_CURSOR;
     }
 
     @Override
-    public boolean isHovering() {
-        return hovering;
-    }
-
-    @Override
     public void mouseMove(MouseEvent e) {
-
-    }
-
-    @Override
-    public void unfocus() {
-        focused = false;
-    }
-
-    @Override
-    public void focus() {
-        focused = true;
-    }
-
-    @Override
-    public boolean isFocused() {
-        return focused;
     }
 
     @Override
     public void drag(MouseEvent e) {
-
     }
 
 }

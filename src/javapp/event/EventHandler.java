@@ -118,7 +118,7 @@ public class EventHandler {
 
         // If the mouse is over an object, click on that object
         if (hovering != null && hovering instanceof Pressable) {
-            ((Pressable) hovering).mouseClick(event);
+            ((Pressable) hovering).mouseClicked(event);
         }
     }
 
@@ -184,8 +184,8 @@ public class EventHandler {
     private void mouseDragged(MouseEvent event) {
 
         // If the mouse is over an object, click on that object
-        if (focused != null && focused instanceof Pressable) {
-            ((Pressable) focused).drag(event);
+        if (focused != null && focused instanceof Focusable) {
+            ((Focusable) focused).drag(event);
         }
     }
 

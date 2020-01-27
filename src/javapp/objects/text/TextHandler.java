@@ -2,7 +2,7 @@ package javapp.objects.text;
 
 import java.awt.event.KeyEvent;
 
-public class TypingHandler {
+public class TextHandler {
 
     String text = "";
     int selectPos = 0;
@@ -236,14 +236,6 @@ public class TypingHandler {
             selectPos = typePos;
         }
 
-        if (key == '}') {
-            String[] s = text.substring(0, typePos).split("\n");
-            if (s[s.length - 1].contains("  ") && s[s.length - 1].trim().length() == 0) {
-                text = text.substring(0, typePos - 2) + text.substring(typePos, text.length());
-                typePos -= 2;
-            }
-        }
-
         // Put the char at the typepos in the text.
         text = text.substring(0, Math.max(typePos, 0)) + key + text.substring(Math.max(typePos, 0), text.length());
         typePos++; // Also adjust typepos
@@ -262,7 +254,8 @@ public class TypingHandler {
     // Remove a single character from the text before the typepos
     private void backspace() {
         text = text.substring(0, Math.max(0, typePos - 1)) + text.substring(typePos, text.length());
-        typePos--; // Also adjust the typepos
+        if (typePos > 0)
+            typePos--; // Also adjust the typepos
     }
 
     // Remove a single character from the text after the typepos
@@ -307,7 +300,7 @@ public class TypingHandler {
         // We check for length 1 and not 0 because we added a space.
         if (current.length() == 1) {
             currentIndex--;
-            return currentIndex;
+            return Math.max(0, currentIndex);
         }
 
         // Check from which class the current char is.
@@ -338,7 +331,7 @@ public class TypingHandler {
         }
 
         // Return the found index.
-        return currentIndex;
+        return Math.max(0, currentIndex);
     }
 
     // Calculates the index right from index "cur" when pressing ctrl.

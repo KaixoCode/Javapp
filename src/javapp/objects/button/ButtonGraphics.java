@@ -6,8 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
+import javapp.graphics.PressableGraphics;
 import javapp.objects.Pressable;
-import javapp.objects.visuals.PressableGraphics;
 
 public class ButtonGraphics extends PressableGraphics {
 

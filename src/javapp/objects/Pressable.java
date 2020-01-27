@@ -2,7 +2,9 @@ package javapp.objects;
 
 import java.awt.event.MouseEvent;
 
-public interface Pressable extends Hoverable {
+public abstract class Pressable extends Hoverable {
+
+    private boolean pressed = false;
 
     /**
      * This gets called by an EventHandler when the pressable object is pressed.
@@ -10,7 +12,18 @@ public interface Pressable extends Hoverable {
      * 
      * @param e mouse event
      */
-    public void mousePress(MouseEvent e);
+    public void mousePress(MouseEvent e) {
+        pressed = true;
+
+        mousePressed(e);
+    }
+
+    /**
+     * This gets called after mousePress(MouseEvent e).
+     * 
+     * @param e mouse event
+     */
+    public abstract void mousePressed(MouseEvent e);
 
     /**
      * This gets called by an EventHandler when the pressable object is clicked on.
@@ -18,7 +31,7 @@ public interface Pressable extends Hoverable {
      * 
      * @param e mouse event
      */
-    public void mouseClick(MouseEvent e);
+    public abstract void mouseClicked(MouseEvent e);
 
     /**
      * This gets called by an EventHandler whenever the mouse has been released.
@@ -26,21 +39,27 @@ public interface Pressable extends Hoverable {
      * 
      * @param e mouse event
      */
-    public void mouseRelease(MouseEvent e);
+    public void mouseRelease(MouseEvent e) {
+        pressed = false;
+
+        mouseReleased(e);
+    }
 
     /**
-     * This gets called by an EventHandler when the Draggable object has been
-     * pressed upon and the mouse is now dragging.
+     * This gets called after mouseRelease(MouseEvent e).
      * 
-     * @param e event
+     * @param e mouse event
      */
-    public void drag(MouseEvent e);
+    public abstract void mouseReleased(MouseEvent e);
 
+    
     /**
      * This should return true if the object is pressed right now, and the mouse is
      * still down.
      * 
      * @return true if is pressed.
      */
-    public boolean isPressed();
+    public boolean isPressed() {
+        return pressed;
+    }
 }
