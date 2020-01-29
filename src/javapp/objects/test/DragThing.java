@@ -103,4 +103,9 @@ public class DragThing extends Focusable {
     public void mouseMove(MouseEvent e) {
 
     }
+
+    public void setPosition(int i, int j) {
+        x = i;
+        y = j;
+    }
 }
