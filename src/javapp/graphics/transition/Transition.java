@@ -19,4 +19,8 @@ public abstract class Transition<T> {
         this.target = t;
     }
 
+    public String toString() {
+        return value.toString();
+    }
+
 }

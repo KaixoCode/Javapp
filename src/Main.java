@@ -31,6 +31,7 @@ public class Main extends Window {
     TextField text;
 
     Canvas canvas;
+    ColorTransition color;
 
     public void setup() {
         button1 = new Button(() -> System.out.println("apple"), -10, 7);
@@ -38,6 +39,7 @@ public class Main extends Window {
 
         canvas = new Canvas(300, 300);
         canvas.setLocation(200, 200);
+        color = new ColorTransition(new Color(100, 100, 100), 0.2);
 
         text = new TextField(100, 100, 300, 36);
 
@@ -49,11 +51,27 @@ public class Main extends Window {
     }
 
     public void draw() {
-//        draw((g2d) -> {
-//            g2d.setColor(Color.WHITE);
-//            g2d.fillRect(0, 0, getWidth(), getHeight());
-//        });
-//
+        draw((g2d) -> {
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        });
+
+        canvas.draw((g2d) -> {
+            g2d.setColor(color.getValue());
+            g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        });
+        canvas.redraw();
+        if (canvas.isPressed()) {
+            color.morph(new Color(255, 255, 255));
+        } else if (canvas.isHovering()) {
+            color.morph(new Color(100, 100, 100));
+        } else if (canvas.isFocused()) {
+            color.morph(new Color(100, 100, 100));
+        } else {
+            color.morph(new Color(0, 0, 0));
+        }
+        draw(canvas);
+
 //        draw((g2d) -> {
 //            g2d.setColor(new Color(255, 25, 150));
 //            g2d.fillRect(0, 0, 800, 400);
@@ -68,7 +86,7 @@ public class Main extends Window {
 //        draw(canvas);
 
         draw(text);
-
+//
 //        for (DragThing b : a) {
 //            draw(b);
 //        }
