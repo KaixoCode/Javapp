@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.Timer;
 
 import javapp.core.Canvas;
+import javapp.core.S;
 import javapp.objects.Typeable;
 
 public class TextDisplayer extends Typeable {
@@ -282,7 +283,7 @@ public class TextDisplayer extends Typeable {
         // height. Also contrain the index to make sure no IndexOutOfBounds is thrown
         int textheight = font.getSize() + textleading;
         int line = (y - paddingY) / (textheight);
-        line = container.constrain(line, 0, lines.length - 1);
+        line = S.constrain(line, 0, lines.length - 1);
 
         // Increment the index up to the found line, do +1 because we split it on "\n"
         // so that isn't part of the lines anymore.
@@ -330,5 +331,11 @@ public class TextDisplayer extends Typeable {
         int ex = paddingX + m.stringWidth(container.getLineFromIndex(index));
         int ey = paddingY + container.getLineIndexFromIndex(index) * textheight;
         return new int[] { ex, ey };
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

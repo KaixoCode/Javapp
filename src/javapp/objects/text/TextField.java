@@ -44,8 +44,6 @@ public class TextField extends TextDisplayer {
             g2d.setColor(Color.BLACK);
             g2d.drawRect(-1, -1, getWidth(), getHeight());
         });
-        canvas.redraw();
-
     }
 
     public void keyType(KeyEvent e) {

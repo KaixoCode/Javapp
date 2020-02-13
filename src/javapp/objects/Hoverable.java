@@ -44,6 +44,8 @@ public abstract class Hoverable implements Drawable {
      */
     public abstract int getY();
 
+    public abstract void setPosition(int x, int y);
+
     /**
      * This gets called by an EventHandler and lets the Hoverable object know if the
      * mouse entered this object.

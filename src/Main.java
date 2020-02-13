@@ -1,17 +1,14 @@
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javapp.core.Canvas;
 import javapp.core.Window;
-import javapp.graphics.transition.ColorTransition;
-import javapp.objects.Pressable;
-import javapp.objects.button.Button;
-import javapp.objects.test.DragThing;
-import javapp.objects.text.TextDisplayer;
+import javapp.data.ColorTransition;
+import javapp.objects.Button;
+import javapp.objects.DragThing;
+import javapp.objects.ScrollCanvas;
+import javapp.objects.Scrollbar;
 import javapp.objects.text.TextField;
 
 public class Main extends Window {
@@ -30,18 +27,24 @@ public class Main extends Window {
 
     TextField text;
 
-    Canvas canvas;
+    ScrollCanvas canvas;
     ColorTransition color;
+
+    Scrollbar verbar;
+    Scrollbar horbar;
 
     public void setup() {
         button1 = new Button(() -> System.out.println("apple"), -10, 7);
         button2 = new Button(() -> System.out.println("carrot"), 50, 300);
 
-        canvas = new Canvas(300, 300);
-        canvas.setLocation(200, 200);
+        canvas = new ScrollCanvas(300, 300);
+        canvas.setPosition(200, 200);
         color = new ColorTransition(new Color(100, 100, 100), 0.2);
 
         text = new TextField(100, 100, 300, 36);
+
+        verbar = new Scrollbar(Scrollbar.VERTICAL, 500, 1000, 600, 100);
+        horbar = new Scrollbar(Scrollbar.HORIZONTAL, 500, 1000, 100, 600);
 
         a = new ArrayList<DragThing>();
         for (int i = 0; i < 100; i++) {
@@ -60,9 +63,12 @@ public class Main extends Window {
             g2d.setColor(color.getValue());
             g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         });
-        canvas.redraw();
+        canvas.draw((g2d) -> {
+            g2d.setColor(Color.RED);
+            g2d.fillRect(0, 0, 100, 100);
+        });
         if (canvas.isPressed()) {
-            color.morph(new Color(255, 255, 255));
+            color.morph(new Color(200, 200, 200));
         } else if (canvas.isHovering()) {
             color.morph(new Color(100, 100, 100));
         } else if (canvas.isFocused()) {
@@ -86,6 +92,8 @@ public class Main extends Window {
 //        draw(canvas);
 
         draw(text);
+        draw(verbar);
+        draw(horbar);
 //
 //        for (DragThing b : a) {
 //            draw(b);

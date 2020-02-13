@@ -1,12 +1,11 @@
-package javapp.objects.test;
+package javapp.objects;
 
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import javapp.graphics.transition.ColorTransition;
-import javapp.objects.Focusable;
+import javapp.data.ColorTransition;
 
 public class DragThing extends Focusable {
 

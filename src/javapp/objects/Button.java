@@ -1,14 +1,13 @@
-package javapp.objects.button;
+package javapp.objects;
 
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javapp.core.Method;
+import javapp.graphics.ButtonGraphics;
 import javapp.graphics.HoverableGraphics;
 import javapp.graphics.PressableGraphics;
-import javapp.objects.Drawable;
-import javapp.objects.Focusable;
 
 /**
  * Simple Button class.
@@ -58,7 +57,7 @@ public class Button extends Focusable {
      */
     public Button(Method m, int x, int y, int width, int height) {
         method = m;
-        setLocation(x, y);
+        setPosition(x, y);
         setSize(width, height);
         visuals = new ButtonGraphics(this);
     }
@@ -97,7 +96,7 @@ public class Button extends Focusable {
      */
     public Button(Method m, Drawable v, int x, int y, int width, int height) {
         method = m;
-        setLocation(x, y);
+        setPosition(x, y);
         setSize(width, height);
         visuals = v;
     }
@@ -122,13 +121,17 @@ public class Button extends Focusable {
         return y;
     }
 
+    public Method getAction() {
+        return method;
+    }
+
     /**
      * Sets the location of the button.
      * 
      * @param x x position
      * @param y y position
      */
-    public void setLocation(int x, int y) {
+    public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }

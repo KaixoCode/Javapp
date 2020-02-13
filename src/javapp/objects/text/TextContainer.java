@@ -1,5 +1,7 @@
 package javapp.objects.text;
 
+import javapp.core.S;
+
 public class TextContainer {
 
     // Editable
@@ -51,18 +53,6 @@ public class TextContainer {
     }
 
     /**
-     * Constrains a value between the two other values.
-     * 
-     * @param a initial value
-     * @param b min value
-     * @param c max value
-     * @return a > b ? a ? c < a : c : b;
-     */
-    public <T extends Comparable<T>> T constrain(T a, T b, T c) {
-        return a.compareTo(b) > 0 ? a.compareTo(c) < 0 ? a : c : b;
-    }
-
-    /**
      * Returns the content of the container.
      * 
      * @return content
@@ -95,7 +85,7 @@ public class TextContainer {
      * @param selectStop last index
      */
     public void setSelectStop(int selectStop) {
-        this.selectStop = constrain(selectStop, 0, length());
+        this.selectStop = S.constrain(selectStop, 0, length());
     }
 
     /**
@@ -113,7 +103,7 @@ public class TextContainer {
      * @param selectStrt first index
      */
     public void setSelectStart(int selectStrt) {
-        this.selectStrt = constrain(selectStrt, 0, length());
+        this.selectStrt = S.constrain(selectStrt, 0, length());
     }
 
     /**
@@ -256,8 +246,8 @@ public class TextContainer {
      * @param end   end index
      */
     public void remove(int start, int end) {
-        start = constrain(start, 0, length());
-        end = constrain(end, 0, length());
+        start = S.constrain(start, 0, length());
+        end = S.constrain(end, 0, length());
 
         content = content.substring(0, start) + content.substring(end);
         setTypeIndex(start);

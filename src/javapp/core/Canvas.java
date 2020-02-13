@@ -99,7 +99,7 @@ public class Canvas extends Focusable implements EventDistributer {
      * @param x x-location
      * @param y y-location
      */
-    public void setLocation(int x, int y) {
+    public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -155,6 +155,7 @@ public class Canvas extends Focusable implements EventDistributer {
         // Put the image on the JPanel
         BufferedImage image = getImage();
         g2d.drawImage(image, x, y, null);
+        redraw();
     }
 
     @Override

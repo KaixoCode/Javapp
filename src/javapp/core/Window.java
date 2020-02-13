@@ -90,7 +90,7 @@ public abstract class Window extends Canvas {
                 }
 
                 // Redraw the Canvas
-                redraw();
+//                redraw();
             };
         };
 
