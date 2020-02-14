@@ -30,6 +30,9 @@ public class TextDisplayer extends Typeable {
     private int typeX = 0;
     private int typeline = 0;
 
+    private int typeIndexX = 0;
+    private int typeIndexY = 0;
+
     private Font font;
 
     private Graphics2D graphics;
@@ -59,13 +62,13 @@ public class TextDisplayer extends Typeable {
      */
     public TextDisplayer(int x, int y, int w, int h, TextContainer c) {
         this.container = c;
-        this.font = new Font("Arial", Font.PLAIN, 24);
+        this.font = new Font("Roboto", Font.PLAIN, 16);
         this.width = w;
         this.height = h;
         this.x = x;
         this.y = y;
 
-        new Timer(5, (a) -> typeline++).start();
+        new Timer(2, (a) -> typeline++).start();
     }
 
     /**
@@ -97,13 +100,13 @@ public class TextDisplayer extends Typeable {
     public void draw(Graphics2D g2d) {
         graphics = g2d;
 
-        g2d.setFont(font);
-        int textheight = font.getSize() + textleading;
+        g2d.setFont(getFont());
+        int textheight = getFont().getSize() + getTextleading();
 
         // Calculate the position of the type index
         int[] t = indexToPosition(container.getTypeIndex());
-        int tx = t[0];
-        int ty = t[1];
+        typeIndexX = t[0];
+        typeIndexY = t[1];
 
         // Calculate the position of the lowest select index
         int[] s = indexToPosition(container.lowestSelectIndex());
@@ -141,17 +144,17 @@ public class TextDisplayer extends Typeable {
                 biggestX = w;
 
             // Draw the string
-            g2d.drawString(lines[i], paddingX, (textheight) * (i + 1) - textleading);
+            g2d.drawString(lines[i], paddingX, (textheight) * (i + 1) - getTextleading() / 3);
         }
         biggestX += paddingX * 2;
         biggestY = lines.length * (textheight) + paddingY * 2;
 
         g2d.setStroke(new BasicStroke(1));
-        if (typeline < 100 && isFocused()) {
-            g2d.drawLine(tx, ty, tx, ty + font.getSize());
+        if (typeline < 75 && isFocused()) {
+            g2d.drawLine(typeIndexX, typeIndexY, typeIndexX, typeIndexY + getFont().getSize());
         }
 
-        if (typeline > 200) {
+        if (typeline > 150) {
             typeline = 0;
         }
     }
@@ -250,7 +253,7 @@ public class TextDisplayer extends Typeable {
      * @param e key event
      */
     private void typeIndex(KeyEvent e) {
-        int textheight = font.getSize() + textleading;
+        int textheight = getFont().getSize() + getTextleading();
         int newi = container.getSelectStop();
 
         // Find the new index when pressing up arrow
@@ -290,7 +293,7 @@ public class TextDisplayer extends Typeable {
 
         // Get the line index by dividing the y position minus the padding by the text
         // height. Also contrain the index to make sure no IndexOutOfBounds is thrown
-        int textheight = font.getSize() + textleading;
+        int textheight = getFont().getSize() + getTextleading();
         int line = (y - paddingY) / (textheight);
         line = S.constrain(line, 0, lines.length - 1);
 
@@ -334,7 +337,7 @@ public class TextDisplayer extends Typeable {
 
         // Get the font metrics of the Graphics2D
         FontMetrics m = graphics.getFontMetrics();
-        int textheight = font.getSize() + textleading;
+        int textheight = getFont().getSize() + getTextleading();
 
         // Calculate the position using the index and the font metrics
         int ex = paddingX + m.stringWidth(container.getLineFromIndex(index));
@@ -351,6 +354,22 @@ public class TextDisplayer extends Typeable {
     public void setSize(int w, int h) {
         width = w;
         height = h;
+    }
+
+    public int getTypeX() {
+        return typeIndexX;
+    }
+
+    public int getTypeY() {
+        return typeIndexY;
+    }
+
+    public int getTextleading() {
+        return textleading;
+    }
+
+    public Font getFont() {
+        return font;
     }
 
 }

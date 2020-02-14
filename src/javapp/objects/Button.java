@@ -34,7 +34,7 @@ public class Button extends Focusable {
      * @param m the Method to run
      */
     public Button(Method m) {
-        this(m, 0, 0, 80, 40);
+        this(m, 0, 0, 70, 35);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Button extends Focusable {
      * @param y y position
      */
     public Button(Method m, int x, int y) {
-        this(m, x, y, 80, 40);
+        this(m, x, y, 70, 35);
     }
 
     /**
@@ -71,7 +71,7 @@ public class Button extends Focusable {
      * @param v the visuals
      */
     public Button(Method m, Drawable v) {
-        this(m, v, 0, 0, 80, 40);
+        this(m, v, 0, 0, 70, 35);
     }
 
     /**
@@ -83,7 +83,7 @@ public class Button extends Focusable {
      * @param y y position
      */
     public Button(Method m, Drawable v, int x, int y) {
-        this(m, v, x, y, 80, 40);
+        this(m, v, x, y, 70, 35);
     }
 
     /**

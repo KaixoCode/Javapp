@@ -204,4 +204,8 @@ public class Scrollbar extends Focusable {
     public void setPadding(int i) {
         padding = i;
     }
+
+    public void setScroll(int amt) {
+        position = S.constrain(amt, 0, realsize - size);
+    }
 }

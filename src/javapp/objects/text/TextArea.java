@@ -14,6 +14,10 @@ public class TextArea extends ScrollCanvas {
         getDisplayer().getContainer();
     }
 
+    public TextArea(int x, int y) {
+        this(x, y, 300, 300);
+    }
+
     @Override
     public void draw() {
         int newW = Math.max(displayer.getBiggestX(), getWidth());
@@ -21,13 +25,27 @@ public class TextArea extends ScrollCanvas {
 
         setCanvasSize(newW, newH);
         displayer.setSize(newW, newH);
-//        displayer.setPosition(-getScrolledX(), -getScrolledY());
 
         draw(displayer);
     }
 
-    public void keyType(KeyEvent e) {
-        getDisplayer().keyType(e);
+    @Override
+    public void keyPress(KeyEvent e) {
+        // Make sure the typepos is always on the screen by scrolling there if
+        // necessary.
+        int x = displayer.getTypeX();
+        int y = displayer.getTypeY() * (displayer.getTextleading() + displayer.getFont().getSize());
+        if (x > getScrolledX() + getWidth() - getDisplayer().getPaddingX() * 2) {
+            setScrollX(x - getWidth() + getDisplayer().getPaddingX() * 2);
+        } else if (x < getScrolledX() + displayer.getPaddingX()) {
+            setScrollX(x - displayer.getPaddingX());
+        }
+
+        if (y > getScrolledY() + getHeight() - getDisplayer().getPaddingY() * 2) {
+            setScrollY(y - getHeight() + getDisplayer().getPaddingY() * 2);
+        } else if (y < getScrolledY()) {
+            setScrollY(y);
+        }
     }
 
     public TextDisplayer getDisplayer() {

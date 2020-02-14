@@ -20,8 +20,8 @@ public class ButtonGraphics extends PressableGraphics {
     public ButtonGraphics(Pressable c) {
         super(c);
         stroke = new BasicStroke(2);
-        font = new Font("Helvetica", Font.PLAIN, 16);
-        border = new Color(128, 128, 128);
+        font = new Font("Roboto", Font.PLAIN, 16);
+        border = Color.BLACK;
         fill = new Color(200, 200, 200);
         color = new Color(0, 0, 0);
         text = "Button";
@@ -29,25 +29,25 @@ public class ButtonGraphics extends PressableGraphics {
 
     @Override
     public void drawPressed(Graphics2D g2d, int width, int height) {
-        g2d.setColor(fill.brighter());
-        g2d.fillRect(0, 0, width, height);
-        g2d.setColor(border.brighter());
+        g2d.setColor(border.darker());
         g2d.setStroke(stroke);
-        g2d.drawRect(-1, -1, width, height);
+        g2d.drawRect(0, 0, width, height);
+        g2d.setColor(fill.darker());
+        g2d.fillRect(1, 1, width, height);
         g2d.setFont(font);
         int x = (width / 2) - (g2d.getFontMetrics().stringWidth(text) / 2);
         int y = (height / 2) + (g2d.getFontMetrics().getHeight() / 4);
         g2d.setColor(color.brighter());
-        g2d.drawString(text, x, y);
+        g2d.drawString(text, x + 1, y + 1);
     }
 
     @Override
     public void drawHovering(Graphics2D g2d, int width, int height) {
-        g2d.setColor(fill.darker());
-        g2d.fillRect(0, 0, width, height);
         g2d.setColor(border.darker());
         g2d.setStroke(stroke);
-        g2d.drawRect(-1, -1, width, height);
+        g2d.drawRect(0, 0, width, height);
+        g2d.setColor(fill.darker());
+        g2d.fillRect(0, 0, width, height);
         g2d.setFont(font);
         int x = (width / 2) - (g2d.getFontMetrics().stringWidth(text) / 2);
         int y = (height / 2) + (g2d.getFontMetrics().getHeight() / 4);
@@ -57,11 +57,11 @@ public class ButtonGraphics extends PressableGraphics {
 
     @Override
     public void drawIdle(Graphics2D g2d, int width, int height) {
-        g2d.setColor(fill);
-        g2d.fillRect(0, 0, width, height);
         g2d.setColor(border);
         g2d.setStroke(stroke);
-        g2d.drawRect(-1, -1, width, height);
+        g2d.drawRect(0, 0, width, height);
+        g2d.setColor(fill);
+        g2d.fillRect(0, 0, width, height);
         g2d.setFont(font);
         int x = (width / 2) - (g2d.getFontMetrics().stringWidth(text) / 2);
         int y = (height / 2) + (g2d.getFontMetrics().getHeight() / 4);

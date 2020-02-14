@@ -40,7 +40,7 @@ public class EventHandler {
      * 
      * @return drawable
      */
-    public Pressable getFocused() {
+    public Focusable getFocused() {
         return focused;
     }
 
@@ -224,8 +224,8 @@ public class EventHandler {
         }
 
         // Add the events to an EventDistributer if the mouse is over it.
-        if (hovering != null && hovering instanceof EventDistributer) {
-            ((EventDistributer) hovering).addEvent(event);
+        if (focused != null && focused instanceof EventDistributer) {
+            ((EventDistributer) focused).addEvent(event);
         }
     }
 

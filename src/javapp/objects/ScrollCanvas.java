@@ -52,6 +52,14 @@ public class ScrollCanvas extends Canvas {
         ver.scroll(amt);
     }
 
+    public void setScrollX(int amt) {
+        hor.setScroll(amt);
+    }
+
+    public void setScrollY(int amt) {
+        ver.setScroll(amt);
+    }
+
     public int getScrolledX() {
         return hor.getValue();
     }

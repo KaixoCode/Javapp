@@ -3,6 +3,7 @@ package javapp.core;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,8 +14,9 @@ import javapp.event.EventHandler;
 import javapp.objects.base.Drawable;
 import javapp.objects.base.Focusable;
 import javapp.objects.base.Hoverable;
+import javapp.objects.base.Typeable;
 
-public class Canvas extends Focusable implements EventDistributer {
+public class Canvas extends Typeable implements EventDistributer {
 
     // The size of the canvas
     private int width;
@@ -44,6 +46,19 @@ public class Canvas extends Focusable implements EventDistributer {
     public Canvas(int w, int h) {
         handler = new EventHandler(this);
         setSize(w, h);
+    }
+
+    @Override
+    public void unfocus() {
+
+        // Unfocus any sub object that had focus
+        Focusable f = handler.getFocused();
+        if (f != null) {
+            f.unfocus();
+        }
+
+        // Unfocus this object
+        super.unfocus();
     }
 
     /**
@@ -206,6 +221,7 @@ public class Canvas extends Focusable implements EventDistributer {
 
     @Override
     public void mousePressed(MouseEvent e) {
+
     }
 
     @Override
@@ -224,5 +240,23 @@ public class Canvas extends Focusable implements EventDistributer {
     @Override
     public void drag(MouseEvent e) {
 
+    }
+
+    @Override
+    public void keyPress(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void keyRelease(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void keyType(KeyEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 }

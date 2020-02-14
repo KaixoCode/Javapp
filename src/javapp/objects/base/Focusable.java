@@ -9,14 +9,14 @@ public abstract class Focusable extends Pressable {
     /**
      * Sets the focus of the object to false.
      */
-    final public void unfocus() {
+    public void unfocus() {
         focused = false;
     }
 
     /**
      * Sets the focus of this object to true.
      */
-    final public void focus() {
+    public void focus() {
         focused = true;
     }
 
