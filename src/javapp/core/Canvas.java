@@ -10,9 +10,9 @@ import java.util.EventObject;
 
 import javapp.event.EventDistributer;
 import javapp.event.EventHandler;
-import javapp.objects.Drawable;
-import javapp.objects.Focusable;
-import javapp.objects.Hoverable;
+import javapp.objects.base.Drawable;
+import javapp.objects.base.Focusable;
+import javapp.objects.base.Hoverable;
 
 public class Canvas extends Focusable implements EventDistributer {
 
@@ -159,11 +159,6 @@ public class Canvas extends Focusable implements EventDistributer {
     }
 
     @Override
-    public boolean withinBounds(int x, int y) {
-        return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
-    }
-
-    @Override
     public int getWidth() {
         return width;
     }
@@ -219,7 +214,7 @@ public class Canvas extends Focusable implements EventDistributer {
     }
 
     @Override
-    public void mouseMove(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
 
     }
 

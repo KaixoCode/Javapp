@@ -57,11 +57,14 @@ public abstract class Window extends Canvas {
         createFrame();
 
         // Start the timer 60 times a second
-        timer = new Timer(1000 / 60, (a) -> {
+//        timer = new Timer(1000 / 180, (a) -> {
+
+        while (true) {
             frameCount++;
             panel.repaint();
-        });
-        timer.start();
+        }
+//        });
+//        timer.start();
     }
 
     /**

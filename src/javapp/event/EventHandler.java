@@ -6,11 +6,11 @@ import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
 
-import javapp.objects.Drawable;
-import javapp.objects.Focusable;
-import javapp.objects.Hoverable;
-import javapp.objects.Pressable;
-import javapp.objects.Typeable;
+import javapp.objects.base.Drawable;
+import javapp.objects.base.Focusable;
+import javapp.objects.base.Hoverable;
+import javapp.objects.base.Pressable;
+import javapp.objects.base.Typeable;
 
 /**
  * Handles all incoming events.
@@ -82,10 +82,16 @@ public class EventHandler {
     // Mouse events
     private void mouseEvent(MouseEvent event) {
 
+        // Calculate the relative position of all elements inside this eventhandler,
+        // taking into account the transformation and the position of the event
+        // distributer.
+        int newx = event.getX() - distributer.getX() - (int) distributer.getGraphics().getTransform().getTranslateX();
+        int newy = event.getY() - distributer.getY() - (int) distributer.getGraphics().getTransform().getTranslateY();
+
         // Translate the coords of the mouse event relative to the canvas
-        event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(),
-                event.getX() - distributer.getX(), event.getY() - distributer.getY(), event.getXOnScreen(),
-                event.getYOnScreen(), event.getClickCount(), event.isPopupTrigger(), event.getButton());
+        event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(), newx, newy,
+                event.getXOnScreen(), event.getYOnScreen(), event.getClickCount(), event.isPopupTrigger(),
+                event.getButton());
 
         /**
          * Distribute the mouse events.
@@ -147,7 +153,7 @@ public class EventHandler {
             if (!((Hoverable) hovering).isHovering()) {
                 ((Hoverable) hovering).mouseEnter();
             }
-            hovering.mouseMove(event);
+            hovering.mouseMoved(event);
         }
 
         // Set hover to false in all the other hoverables
@@ -215,6 +221,11 @@ public class EventHandler {
         case KeyEvent.KEY_TYPED:
             keyTyped(event);
             break;
+        }
+
+        // Add the events to an EventDistributer if the mouse is over it.
+        if (hovering != null && hovering instanceof EventDistributer) {
+            ((EventDistributer) hovering).addEvent(event);
         }
     }
 

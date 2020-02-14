@@ -2,8 +2,8 @@ package javapp.graphics;
 
 import java.awt.Graphics2D;
 
-import javapp.objects.Drawable;
-import javapp.objects.Hoverable;
+import javapp.objects.base.Drawable;
+import javapp.objects.base.Hoverable;
 
 public abstract class HoverableGraphics implements Drawable {
 

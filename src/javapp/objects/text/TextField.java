@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import javapp.core.Canvas;
 
@@ -44,6 +45,7 @@ public class TextField extends TextDisplayer {
             g2d.setColor(Color.BLACK);
             g2d.drawRect(-1, -1, getWidth(), getHeight());
         });
+        canvas.redraw();
     }
 
     public void keyType(KeyEvent e) {
@@ -52,6 +54,30 @@ public class TextField extends TextDisplayer {
         if (e.getKeyChar() != KeyEventHandler.ENTER) {
             super.keyType(e);
         }
+    }
+
+    public void drag(MouseEvent event) {
+        int newx = event.getX() + scrolled;
+        int newy = event.getY();
+
+        // Translate the coords of the mouse event relative to the canvas
+        event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(), newx, newy,
+                event.getXOnScreen(), event.getYOnScreen(), event.getClickCount(), event.isPopupTrigger(),
+                event.getButton());
+
+        super.drag(event);
+    }
+
+    public void mousePressed(MouseEvent event) {
+        int newx = event.getX() + scrolled;
+        int newy = event.getY();
+
+        // Translate the coords of the mouse event relative to the canvas
+        event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(), newx, newy,
+                event.getXOnScreen(), event.getYOnScreen(), event.getClickCount(), event.isPopupTrigger(),
+                event.getButton());
+
+        super.mousePressed(event);
     }
 
 }

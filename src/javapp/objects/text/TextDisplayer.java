@@ -13,7 +13,7 @@ import javax.swing.Timer;
 
 import javapp.core.Canvas;
 import javapp.core.S;
-import javapp.objects.Typeable;
+import javapp.objects.base.Typeable;
 
 public class TextDisplayer extends Typeable {
 
@@ -65,7 +65,6 @@ public class TextDisplayer extends Typeable {
         this.canvas = new Canvas(width, height);
 
         new Timer(5, (a) -> typeline++).start();
-        ;
     }
 
     /**
@@ -91,7 +90,8 @@ public class TextDisplayer extends Typeable {
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawImage(canvas.getImage(), x, y, null);
+        g.drawImage(canvas.getImage(), getX(), getY(), null);
+
         canvas.draw((g2d) -> {
             g2d.setFont(font);
             int textheight = font.getSize() + textleading;
@@ -140,6 +140,7 @@ public class TextDisplayer extends Typeable {
                 typeline = 0;
             }
         });
+        canvas.redraw();
     }
 
     @Override
@@ -183,11 +184,6 @@ public class TextDisplayer extends Typeable {
     }
 
     @Override
-    public boolean withinBounds(int x, int y) {
-        return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
-    }
-
-    @Override
     public int getWidth() {
         return width;
     }
@@ -218,7 +214,7 @@ public class TextDisplayer extends Typeable {
     }
 
     @Override
-    public void mouseMove(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
     }
 
     @Override

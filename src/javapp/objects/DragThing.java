@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javapp.data.ColorTransition;
+import javapp.objects.base.Focusable;
 
 public class DragThing extends Focusable {
 
@@ -31,11 +32,6 @@ public class DragThing extends Focusable {
         color.morph(drag);
         this.dx = this.x - e.getX();
         this.dy = this.y - e.getY();
-    }
-
-    @Override
-    public boolean withinBounds(int x, int y) {
-        return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
     }
 
     @Override
@@ -99,7 +95,7 @@ public class DragThing extends Focusable {
     }
 
     @Override
-    public void mouseMove(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
 
     }
 

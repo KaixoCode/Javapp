@@ -2,7 +2,7 @@ package javapp.graphics;
 
 import java.awt.Graphics2D;
 
-import javapp.objects.Pressable;
+import javapp.objects.base.Pressable;
 
 public abstract class PressableGraphics extends HoverableGraphics {
 

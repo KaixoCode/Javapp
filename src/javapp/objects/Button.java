@@ -8,6 +8,8 @@ import javapp.core.Method;
 import javapp.graphics.ButtonGraphics;
 import javapp.graphics.HoverableGraphics;
 import javapp.graphics.PressableGraphics;
+import javapp.objects.base.Drawable;
+import javapp.objects.base.Focusable;
 
 /**
  * Simple Button class.
@@ -163,10 +165,7 @@ public class Button extends Focusable {
         g2d.translate(-x, -y);
     }
 
-    @Override
-    public boolean withinBounds(int x, int y) {
-        return x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height;
-    }
+    
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -213,7 +212,7 @@ public class Button extends Focusable {
     }
 
     @Override
-    public void mouseMove(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
     }
 
     @Override

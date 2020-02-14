@@ -35,19 +35,19 @@ public class Main extends Window {
 
     public void setup() {
         button1 = new Button(() -> System.out.println("apple"), -10, 7);
-        button2 = new Button(() -> System.out.println("carrot"), 50, 300);
+        button2 = new Button(() -> System.out.println("carrot"), 50, 50);
 
         canvas = new ScrollCanvas(300, 300);
         canvas.setPosition(200, 200);
         color = new ColorTransition(new Color(100, 100, 100), 0.2);
 
-        text = new TextField(100, 100, 300, 36);
+        text = new TextField(0, 100, 300, 36);
 
         verbar = new Scrollbar(Scrollbar.VERTICAL, 500, 1000, 600, 100);
         horbar = new Scrollbar(Scrollbar.HORIZONTAL, 500, 1000, 100, 600);
 
         a = new ArrayList<DragThing>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             a.add(new DragThing());
             a.get(i).setPosition((int) (Math.random() * getWidth()), (int) (Math.random() * getHeight()));
         }
@@ -60,48 +60,24 @@ public class Main extends Window {
         });
 
         canvas.draw((g2d) -> {
-            g2d.setColor(color.getValue());
-            g2d.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            g2d.setColor(Color.BLACK);
+            g2d.fillRect(0, 0, 1000, 1000);
         });
+
         canvas.draw((g2d) -> {
             g2d.setColor(Color.RED);
             g2d.fillRect(0, 0, 100, 100);
         });
-        if (canvas.isPressed()) {
-            color.morph(new Color(200, 200, 200));
-        } else if (canvas.isHovering()) {
-            color.morph(new Color(100, 100, 100));
-        } else if (canvas.isFocused()) {
-            color.morph(new Color(100, 100, 100));
-        } else {
-            color.morph(new Color(0, 0, 0));
-        }
+
+        canvas.draw(text);
+        canvas.draw(button2);
+        canvas.setCanvasSize(1000, 1000);
         draw(canvas);
 
-//        draw((g2d) -> {
-//            g2d.setColor(new Color(255, 25, 150));
-//            g2d.fillRect(0, 0, 800, 400);
-//        });
-//
-//        draw(thing);
-//
-//        draw(button2);
-
-//        canvas.draw(button1);
-//        canvas.redraw();
-//        draw(canvas);
-
-        draw(text);
-        draw(verbar);
-        draw(horbar);
-//
+//        draw(verbar);
+//        draw(horbar);
 //        for (DragThing b : a) {
 //            draw(b);
 //        }
-
-//        draw((g2d) -> {
-//            g2d.setColor(Color.CYAN);
-//            g2d.fillRect(140, 130, 100, 100);
-//        });
     }
 }
