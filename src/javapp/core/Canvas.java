@@ -125,7 +125,7 @@ public class Canvas extends Focusable implements EventDistributer {
     /**
      * Redraws the canvas.
      */
-    public void redraw() {
+    final public void redraw() {
 
         // Handle all the events
         getEventHandler().handleEvents();
@@ -181,6 +181,10 @@ public class Canvas extends Focusable implements EventDistributer {
         return cursor;
     }
 
+    public void setCursor(int c) {
+        cursor = c;
+    }
+
     @Override
     public void mouseEntered() {
     }
@@ -198,7 +202,6 @@ public class Canvas extends Focusable implements EventDistributer {
         for (Drawable d : hoverables) {
             ((Hoverable) d).mouseExit();
         }
-
     }
 
     @Override

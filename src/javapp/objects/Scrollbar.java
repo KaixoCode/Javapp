@@ -16,6 +16,8 @@ public class Scrollbar extends Focusable {
 
     private final int type;
 
+    private boolean visible = true;
+
     private int pressX = 0;
     private int pressY = 0;
     private int presspos = 0;
@@ -27,9 +29,9 @@ public class Scrollbar extends Focusable {
     private int barpos;
     private int x;
     private int y;
-    private int size;
+    private int size = 1;
     private int thickness = 25;
-    private int realsize;
+    private int realsize = 1;
 
     private ColorTransition color;
 
@@ -44,14 +46,15 @@ public class Scrollbar extends Focusable {
 
     @Override
     public void draw(Graphics2D g2d) {
-        barsize = (size * size) / realsize;
-        barpos = ((size - barsize) * position) / (realsize - size);
 
         // Don't display a bar if the realsize is smaller than the size because there's
         // nothing to scroll.
-        if (realsize <= size) {
+        if (realsize <= size || !visible) {
             return;
         }
+
+        barsize = (size * size) / realsize;
+        barpos = ((size - barsize) * position) / (realsize - size);
 
         // Draw the bar depending on the type.
         if (type == VERTICAL) {
@@ -96,13 +99,13 @@ public class Scrollbar extends Focusable {
     }
 
     public void scroll(int amt) {
-        position = S.constrain(position + amt, 0, realsize);
+        position = S.constrain(position + amt, 0, realsize - size);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        pressX = e.getX() - x;
-        pressY = e.getY() - y;
+        pressX = e.getX() - x - position;
+        pressY = e.getY() - y - position;
         presspos = barpos;
     }
 
@@ -119,8 +122,10 @@ public class Scrollbar extends Focusable {
     @Override
     public boolean withinBounds(int x, int y) {
         if (type == VERTICAL) {
+            y -= position;
             return x > this.x && x < this.x + thickness && y > this.y + barpos && y < this.y + barpos + barsize;
         } else {
+            x -= position;
             return y > this.y && y < this.y + thickness && x > this.x + barpos && x < this.x + barpos + barsize;
         }
     }
@@ -174,9 +179,11 @@ public class Scrollbar extends Focusable {
     @Override
     public void drag(MouseEvent e) {
         if (type == VERTICAL) {
-            position = (int) S.mapstrain((e.getY() - pressY - y) + presspos, 0, size - barsize, 0, realsize - size);
+            position = (int) S.mapstrain((e.getY() - pressY - y) + presspos - position, 0, size - barsize, 0,
+                    realsize - size);
         } else {
-            position = (int) S.mapstrain((e.getX() - pressX - x) + presspos, 0, size - barsize, 0, realsize - size);
+            position = (int) S.mapstrain((e.getX() - pressX - x) + presspos - position, 0, size - barsize, 0,
+                    realsize - size);
         }
     }
 
@@ -188,5 +195,13 @@ public class Scrollbar extends Focusable {
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setVisible(boolean b) {
+        visible = b;
+    }
+
+    public void setPadding(int i) {
+        padding = i;
     }
 }

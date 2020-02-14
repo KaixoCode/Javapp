@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.Timer;
 
-import javapp.core.Canvas;
 import javapp.core.S;
 import javapp.objects.base.Typeable;
 
@@ -25,12 +24,15 @@ public class TextDisplayer extends Typeable {
     private int paddingY = 5;
     private int textleading = 2;
 
-    private int typeX = 0;
+    private int biggestX = 0;
+    private int biggestY = 0;
 
+    private int typeX = 0;
     private int typeline = 0;
 
     private Font font;
-    private Canvas canvas;
+
+    private Graphics2D graphics;
 
     private TextContainer container;
 
@@ -62,7 +64,6 @@ public class TextDisplayer extends Typeable {
         this.height = h;
         this.x = x;
         this.y = y;
-        this.canvas = new Canvas(width, height);
 
         new Timer(5, (a) -> typeline++).start();
     }
@@ -76,10 +77,6 @@ public class TextDisplayer extends Typeable {
         return container;
     }
 
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
     public int getPaddingX() {
         return paddingX;
     }
@@ -88,59 +85,75 @@ public class TextDisplayer extends Typeable {
         return paddingY;
     }
 
+    public int getBiggestX() {
+        return biggestX;
+    }
+
+    public int getBiggestY() {
+        return biggestY;
+    }
+
     @Override
-    public void draw(Graphics2D g) {
-        g.drawImage(canvas.getImage(), getX(), getY(), null);
+    public void draw(Graphics2D g2d) {
+        graphics = g2d;
 
-        canvas.draw((g2d) -> {
-            g2d.setFont(font);
-            int textheight = font.getSize() + textleading;
+        g2d.setFont(font);
+        int textheight = font.getSize() + textleading;
 
-            // Calculate the position of the type index
-            int[] t = indexToPosition(container.getTypeIndex());
-            int tx = t[0];
-            int ty = t[1];
+        // Calculate the position of the type index
+        int[] t = indexToPosition(container.getTypeIndex());
+        int tx = t[0];
+        int ty = t[1];
 
-            // Calculate the position of the lowest select index
-            int[] s = indexToPosition(container.lowestSelectIndex());
-            int sx = s[0];
-            int sy = s[1];
+        // Calculate the position of the lowest select index
+        int[] s = indexToPosition(container.lowestSelectIndex());
+        int sx = s[0];
+        int sy = s[1];
 
-            // Calculate the position of the highest select index
-            int[] e = indexToPosition(container.highestSelectIndex());
-            int ex = e[0];
-            int ey = e[1];
+        // Calculate the position of the highest select index
+        int[] e = indexToPosition(container.highestSelectIndex());
+        int ex = e[0];
+        int ey = e[1];
 
-            // Display background
-            g2d.setColor(Color.WHITE);
-            g2d.fillRect(0, 0, width, height);
+        // Display background
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, width, height);
 
-            // Display selection
-            g2d.setColor(new Color(200, 220, 240));
-            if (sy == ey) {
-                g2d.fillRect(sx, sy, ex - sx, textheight);
-            } else {
-                g2d.fillRect(sx, sy, width, textheight);
-                g2d.fillRect(paddingX, sy + textheight, width, (ey - sy) - textheight);
-                g2d.fillRect(paddingX, ey, ex - paddingX, textheight);
-            }
+        // Display selection
+        g2d.setColor(new Color(200, 220, 240));
+        if (sy == ey) {
+            g2d.fillRect(sx, sy, ex - sx, textheight);
+        } else {
+            g2d.fillRect(sx, sy, width, textheight);
+            g2d.fillRect(paddingX, sy + textheight, width, (ey - sy) - textheight);
+            g2d.fillRect(paddingX, ey, ex - paddingX, textheight);
+        }
 
-            // Display text in lines
-            g2d.setColor(Color.BLACK);
-            String[] lines = container.getContent().split("\n");
-            for (int i = 0; i < lines.length; i++) {
-                g2d.drawString(lines[i], paddingX, (textheight) * (i + 1) - textleading);
-            }
+        // Display text in lines
+        g2d.setColor(Color.BLACK);
+        String[] lines = container.getContent().split("\n");
+        biggestX = 0;
+        for (int i = 0; i < lines.length; i++) {
 
-            g2d.setStroke(new BasicStroke(1));
-            if (typeline < 100 && isFocused()) {
-                g2d.drawLine(tx, ty, tx, ty + font.getSize());
-            }
-            if (typeline > 200) {
-                typeline = 0;
-            }
-        });
-        canvas.redraw();
+            // Calculate the biggest X coordinate
+            int w = g2d.getFontMetrics().stringWidth(lines[i]);
+            if (w > biggestX)
+                biggestX = w;
+
+            // Draw the string
+            g2d.drawString(lines[i], paddingX, (textheight) * (i + 1) - textleading);
+        }
+        biggestX += paddingX * 2;
+        biggestY = lines.length * (textheight) + paddingY * 2;
+
+        g2d.setStroke(new BasicStroke(1));
+        if (typeline < 100 && isFocused()) {
+            g2d.drawLine(tx, ty, tx, ty + font.getSize());
+        }
+
+        if (typeline > 200) {
+            typeline = 0;
+        }
     }
 
     @Override
@@ -294,7 +307,7 @@ public class TextDisplayer extends Typeable {
         for (int i = 0; i < lines[line].length(); i++) {
 
             // Width of the current character
-            int w = canvas.getGraphics().getFontMetrics().charWidth((lines[line].charAt(i)));
+            int w = graphics.getFontMetrics().charWidth((lines[line].charAt(i)));
 
             // If the current width of the line + half the width of the current character +
             // paddingX is bigger than the x, we've found our index.
@@ -320,7 +333,7 @@ public class TextDisplayer extends Typeable {
     public int[] indexToPosition(int index) {
 
         // Get the font metrics of the Graphics2D
-        FontMetrics m = canvas.getGraphics().getFontMetrics();
+        FontMetrics m = graphics.getFontMetrics();
         int textheight = font.getSize() + textleading;
 
         // Calculate the position using the index and the font metrics
@@ -334,4 +347,10 @@ public class TextDisplayer extends Typeable {
         this.x = x;
         this.y = y;
     }
+
+    public void setSize(int w, int h) {
+        width = w;
+        height = h;
+    }
+
 }

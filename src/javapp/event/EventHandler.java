@@ -85,8 +85,8 @@ public class EventHandler {
         // Calculate the relative position of all elements inside this eventhandler,
         // taking into account the transformation and the position of the event
         // distributer.
-        int newx = event.getX() - distributer.getX() - (int) distributer.getGraphics().getTransform().getTranslateX();
-        int newy = event.getY() - distributer.getY() - (int) distributer.getGraphics().getTransform().getTranslateY();
+        int newx = event.getX() - distributer.getX();
+        int newy = event.getY() - distributer.getY();
 
         // Translate the coords of the mouse event relative to the canvas
         event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(), newx, newy,

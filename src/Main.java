@@ -2,13 +2,13 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javapp.core.Canvas;
 import javapp.core.Window;
 import javapp.data.ColorTransition;
 import javapp.objects.Button;
 import javapp.objects.DragThing;
 import javapp.objects.ScrollCanvas;
 import javapp.objects.Scrollbar;
+import javapp.objects.text.TextArea;
 import javapp.objects.text.TextField;
 
 public class Main extends Window {
@@ -25,7 +25,7 @@ public class Main extends Window {
 
     ArrayList<DragThing> a;
 
-    TextField text;
+    TextArea text;
 
     ScrollCanvas canvas;
     ColorTransition color;
@@ -37,11 +37,11 @@ public class Main extends Window {
         button1 = new Button(() -> System.out.println("apple"), -10, 7);
         button2 = new Button(() -> System.out.println("carrot"), 50, 50);
 
-        canvas = new ScrollCanvas(300, 300);
-        canvas.setPosition(200, 200);
+        canvas = new ScrollCanvas(600, 600);
+        canvas.setPosition(100, 100);
         color = new ColorTransition(new Color(100, 100, 100), 0.2);
 
-        text = new TextField(0, 100, 300, 36);
+        text = new TextArea(100, 100, 300, 300);
 
         verbar = new Scrollbar(Scrollbar.VERTICAL, 500, 1000, 600, 100);
         horbar = new Scrollbar(Scrollbar.HORIZONTAL, 500, 1000, 100, 600);
@@ -60,7 +60,7 @@ public class Main extends Window {
         });
 
         canvas.draw((g2d) -> {
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(new Color(240, 240, 240));
             g2d.fillRect(0, 0, 1000, 1000);
         });
 

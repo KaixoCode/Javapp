@@ -1,6 +1,6 @@
 package javapp.core;
 
-public class S {
+public final class S {
     /**
      * Constrains a value between the two other values.
      * 
@@ -23,11 +23,11 @@ public class S {
      * @param stop2
      * @return the value mapped from start1-stop1 to start2-stop2
      */
-    public double map(double value, double start1, double stop1, double start2, double stop2) {
+    public static double map(double value, double start1, double stop1, double start2, double stop2) {
         return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
     }
 
-    public float map(float value, float start1, float stop1, float start2, float stop2) {
+    public static float map(float value, float start1, float stop1, float start2, float stop2) {
         return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
     }
 
@@ -42,10 +42,10 @@ public class S {
      * @return the value mapped from start1-stop1 to start2-stop2
      */
     public static double mapstrain(double value, double start1, double stop1, double start2, double stop2) {
-        return constrain(start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1)), start2, stop2);
+        return constrain(map(value, start1, stop1, start2, stop2), start2, stop2);
     }
 
     public static float mapstrain(float value, float start1, float stop1, float start2, float stop2) {
-        return constrain(start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1)), start2, stop2);
+        return constrain(map(value, start1, stop1, start2, stop2), start2, stop2);
     }
 }
