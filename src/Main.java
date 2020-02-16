@@ -26,7 +26,9 @@ public class Main extends Window {
     ArrayList<DragThing> a;
 
     TextArea text;
-    TextField field;
+    TextField field1;
+    TextField field2;
+    TextField field3;
 
     ScrollCanvas canvas;
     ColorTransition color;
@@ -42,8 +44,13 @@ public class Main extends Window {
         canvas.setPosition(100, 100);
         color = new ColorTransition(new Color(100, 100, 100), 0.2);
 
-        text = new TextArea(100, 100);
-        field = new TextField(100, 50);
+        text = new TextArea(100, 140);
+        field1 = new TextField(100, 50);
+        field2 = new TextField(100, 80);
+        field3 = new TextField(100, 110);
+        field1.setTabObject(field2);
+        field2.setTabObject(field3);
+        
 
         verbar = new Scrollbar(Scrollbar.VERTICAL, 500, 1000, 600, 100);
         horbar = new Scrollbar(Scrollbar.HORIZONTAL, 500, 1000, 100, 600);
@@ -71,7 +78,9 @@ public class Main extends Window {
             g2d.fillRect(0, 0, 500, 500);
         });
 
-        canvas.draw(field);
+        canvas.draw(field1);
+        canvas.draw(field2);
+        canvas.draw(field3);
         canvas.draw(text);
         canvas.draw(button2);
         canvas.setCanvasSize(1000, 1000);

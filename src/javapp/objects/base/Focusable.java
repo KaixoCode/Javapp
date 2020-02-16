@@ -5,6 +5,27 @@ import java.awt.event.MouseEvent;
 public abstract class Focusable extends Pressable {
 
     private boolean focused = false;
+    private Focusable tabObject = null;
+    private Focusable backTabObject = null;
+
+    /**
+     * Sets the tab object of this focusable
+     * 
+     * @param o tabobject
+     */
+    public void setTabObject(Focusable o) {
+        tabObject = o;
+        tabObject.setBackTabObject(this);
+    }
+
+    /**
+     * Sets the tab object of this focusable
+     * 
+     * @param o tabobject
+     */
+    public void setBackTabObject(Focusable o) {
+        backTabObject = o;
+    }
 
     /**
      * Sets the focus of the object to false.
@@ -37,4 +58,35 @@ public abstract class Focusable extends Pressable {
      */
     public abstract void drag(MouseEvent e);
 
+    /**
+     * Tab to the tabobject
+     */
+    final public boolean tab() {
+        if (tabObject != null && isFocused()) {
+            unfocus();
+            tabObject.focus();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Backtab to the backtabobject
+     */
+    final public boolean backTab() {
+        if (backTabObject != null && isFocused()) {
+            unfocus();
+            backTabObject.focus();
+            return true;
+        }
+        return false;
+    }
+
+    final public Focusable getBackTabObject() {
+        return backTabObject;
+    }
+
+    final public Focusable getTabObject() {
+        return tabObject;
+    }
 }

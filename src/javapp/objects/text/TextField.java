@@ -2,6 +2,7 @@ package javapp.objects.text;
 
 import java.awt.Color;
 import javapp.objects.ScrollCanvas;
+import javapp.objects.base.Focusable;
 
 public class TextField extends ScrollCanvas {
 
@@ -43,5 +44,27 @@ public class TextField extends ScrollCanvas {
 
     public TextDisplayer getDisplayer() {
         return displayer;
+    }
+
+    @Override
+    public void focus() {
+        displayer.focus();
+        super.focus();
+    }
+
+    @Override
+    public void unfocus() {
+        displayer.unfocus();
+        super.unfocus();
+    }
+
+    public void setTabObject(Focusable o) {
+        displayer.setTabObject(o);
+        super.setTabObject(o);
+    }
+
+    public void setBackTabObject(Focusable o) {
+        displayer.setBackTabObject(o);
+        super.setBackTabObject(o);
     }
 }

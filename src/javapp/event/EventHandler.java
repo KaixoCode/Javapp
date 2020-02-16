@@ -66,6 +66,21 @@ public class EventHandler {
      * Runs all the events that are now in the event queue
      */
     public void handleEvents() {
+
+        // Make sure the focused object is in the focused variable
+        ArrayList<Drawable> focusables = new ArrayList<Drawable>(distributer.getDrawables());
+
+        // Remove all non focusables
+        focusables.removeIf((c) -> !(c instanceof Focusable));
+
+        // Find the focused object
+        for (Drawable d : focusables) {
+            if (((Focusable) d).isFocused()) {
+                focused = (Focusable) d;
+            }
+        }
+
+        // Do events
         while (eventQueue.size() > 0) {
             EventObject o = eventQueue.get(0);
             if (o instanceof MouseEvent) {
@@ -92,7 +107,10 @@ public class EventHandler {
         event = new MouseEvent(event.getComponent(), event.getID(), event.getWhen(), event.getModifiersEx(), newx, newy,
                 event.getXOnScreen(), event.getYOnScreen(), event.getClickCount(), event.isPopupTrigger(),
                 event.getButton());
-
+        // Add the events to an EventDistributer if the mouse is over it.
+        if (hovering != null && hovering instanceof EventDistributer) {
+            ((EventDistributer) hovering).addEvent(event);
+        }
         /**
          * Distribute the mouse events.
          */
@@ -114,10 +132,6 @@ public class EventHandler {
             break;
         }
 
-        // Add the events to an EventDistributer if the mouse is over it.
-        if (hovering != null && hovering instanceof EventDistributer) {
-            ((EventDistributer) hovering).addEvent(event);
-        }
     }
 
     private void mouseClicked(MouseEvent event) {
@@ -175,13 +189,13 @@ public class EventHandler {
         }
 
         // Unfocus any focused object
-        if (focused != null) {
+        if (focused != null && focused != hovering) {
             ((Focusable) focused).unfocus();
             focused = null;
         }
 
         // Set the focus to hovering if it's focusable
-        if (hovering instanceof Focusable) {
+        if (hovering instanceof Focusable && focused == null) {
             focused = ((Focusable) hovering);
             ((Focusable) focused).focus();
         }
@@ -209,8 +223,35 @@ public class EventHandler {
         }
     }
 
+    // True when a tab event occured, stops the keyTyped event from firing.
+    private boolean tabbed = false;
+
     // Key events
     private void keyEvent(KeyEvent event) {
+
+        // Stop the event when a tab event occured
+        if (tabbed) {
+            tabbed = false;
+            return;
+        }
+
+        // Tab object event stuff
+        if (event.getID() == KeyEvent.KEY_PRESSED && focused != null && event.getKeyCode() == KeyEvent.VK_TAB) {
+            if (event.isShiftDown() && focused.backTab()) {
+                focused = focused.getBackTabObject();
+                tabbed = true;
+                return;
+            } else if (!event.isShiftDown() && focused.tab()) {
+                focused = focused.getTabObject();
+                tabbed = true;
+                return;
+            } else if (focused.getBackTabObject() != null || focused.getTabObject() != null) {
+                tabbed = true;
+                return;
+            }
+        }
+
+        // Event stuff
         switch (event.getID()) {
         case KeyEvent.KEY_PRESSED:
             keyPressed(event);
@@ -233,6 +274,7 @@ public class EventHandler {
         if (focused != null && focused instanceof Typeable) {
             ((Typeable) focused).keyPress(event);
         }
+
     }
 
     private void keyReleased(KeyEvent event) {

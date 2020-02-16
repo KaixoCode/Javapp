@@ -1,7 +1,10 @@
 package javapp.objects.text;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
 import javapp.objects.ScrollCanvas;
+import javapp.objects.base.Focusable;
 
 public class TextArea extends ScrollCanvas {
 
@@ -27,10 +30,14 @@ public class TextArea extends ScrollCanvas {
         displayer.setSize(newW, newH);
 
         draw(displayer);
+
+        if (update > 0) {
+            updateScroll();
+            update--;
+        }
     }
 
-    @Override
-    public void keyPress(KeyEvent e) {
+    public void updateScroll() {
         // Make sure the typepos is always on the screen by scrolling there if
         // necessary.
         int x = displayer.getTypeX();
@@ -48,8 +55,44 @@ public class TextArea extends ScrollCanvas {
         }
     }
 
+    private int update = 0;
+
+    @Override
+    public void keyType(KeyEvent e) {
+        update = 10;
+    }
+
+    @Override
+    public void keyPress(KeyEvent e) {
+
+    }
+
+    @Override
+    public void drag(MouseEvent e) {
+        if (displayer.isFocused())
+            updateScroll();
+    }
+
     public TextDisplayer getDisplayer() {
         return displayer;
     }
 
+    @Override
+    public void focus() {
+        displayer.focus();
+        super.focus();
+    }
+
+    public void unfocus() {
+        displayer.unfocus();
+        super.unfocus();
+    }
+
+    public void setTabObject(Focusable o) {
+        displayer.setTabObject(o);
+    }
+
+    public void setBackTabObject(Focusable o) {
+        displayer.setBackTabObject(o);
+    }
 }

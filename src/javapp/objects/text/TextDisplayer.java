@@ -134,8 +134,9 @@ public class TextDisplayer extends Typeable {
 
         // Display text in lines
         g2d.setColor(Color.BLACK);
-        String[] lines = container.getContent().split("\n");
+        String[] lines = (container.getContent() + " ").split("\n");
         biggestX = 0;
+        biggestY = 0;
         for (int i = 0; i < lines.length; i++) {
 
             // Calculate the biggest X coordinate
@@ -370,6 +371,11 @@ public class TextDisplayer extends Typeable {
 
     public Font getFont() {
         return font;
+    }
+
+    public void focus() {
+        typeline = 0;
+        super.focus();
     }
 
 }
