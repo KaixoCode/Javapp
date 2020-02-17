@@ -24,7 +24,7 @@ public class KeyEventHandler {
      * @param event     the KeyEvent
      * @param container the TextContainer
      */
-    public static void handleKeyEvent(KeyEvent event, TextContainer c) {
+    public static void handleKeyEvent(KeyEvent event, DataContainer<?> c) {
         switch (event.getID()) {
         case KeyEvent.KEY_PRESSED:
             keyPress(event, c);
@@ -44,7 +44,7 @@ public class KeyEventHandler {
      * @param event     the KeyEvent
      * @param container the TextContainer
      */
-    public static void keyPress(KeyEvent event, TextContainer container) {
+    public static void keyPress(KeyEvent event, DataContainer<?> container) {
 
         // Update the type index
         int keyCode = event.getKeyCode();
@@ -59,7 +59,7 @@ public class KeyEventHandler {
      * @param event     the KeyEvent
      * @param container the TextContainer
      */
-    public static void keyRelease(KeyEvent event, TextContainer container) {
+    public static void keyRelease(KeyEvent event, DataContainer<?> container) {
 
     }
 
@@ -69,7 +69,7 @@ public class KeyEventHandler {
      * @param event     the KeyEvent
      * @param container the TextContainer
      */
-    public static void keyType(KeyEvent event, TextContainer container) {
+    public static void keyType(KeyEvent event, DataContainer<?> container) {
         if (event.getKeyChar() == CODED) {
             return;
         } else if (event.isControlDown()) {
@@ -86,7 +86,7 @@ public class KeyEventHandler {
      * 
      * 
      */
-    private static void typeIndex(KeyEvent event, TextContainer container) {
+    private static void typeIndex(KeyEvent event, DataContainer<?> container) {
 
         // easy access key and keyCode
         int keyCode = event.getKeyCode();
@@ -135,7 +135,7 @@ public class KeyEventHandler {
      * 
      */
 
-    private static void typeActions(KeyEvent event, TextContainer container) {
+    private static void typeActions(KeyEvent event, DataContainer<?> container) {
         char key = event.getKeyChar();
 
         if (key == BACKSPACE) {
@@ -157,7 +157,7 @@ public class KeyEventHandler {
      * @param key       the character
      * @param container the container
      */
-    private static void typeKey(char key, TextContainer container) {
+    private static void typeKey(char key, DataContainer<?> container) {
         container.insert(key);
     }
 
@@ -166,7 +166,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void enter(TextContainer container) {
+    private static void enter(DataContainer<?> container) {
         container.insert("\n");
     }
 
@@ -175,7 +175,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void tab(TextContainer container) {
+    private static void tab(DataContainer<?> container) {
         container.insert("  ");
     }
 
@@ -184,7 +184,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void delete(TextContainer container) {
+    private static void delete(DataContainer<?> container) {
         container.delete();
     }
 
@@ -193,7 +193,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void backspace(TextContainer container) {
+    private static void backspace(DataContainer<?> container) {
         container.backspace();
     }
 
@@ -205,7 +205,7 @@ public class KeyEventHandler {
      * 
      * 
      */
-    private static void ctrlActions(KeyEvent event, TextContainer container) {
+    private static void ctrlActions(KeyEvent event, DataContainer<?> container) {
         char key = event.getKeyChar();
         if ((int) key == 127 && container.isEditable()) {
             ctrlBackspace(container);
@@ -220,7 +220,7 @@ public class KeyEventHandler {
         }
     }
 
-    private static void ctrlBackspace(TextContainer container) {
+    private static void ctrlBackspace(DataContainer<?> container) {
         if (container.selection()) {
             container.removeSelection();
         } else {
@@ -233,7 +233,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void ctrlA(TextContainer container) {
+    private static void ctrlA(DataContainer<?> container) {
         container.select(0, container.length());
     }
 
@@ -242,7 +242,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void ctrlC(TextContainer container) {
+    private static void ctrlC(DataContainer<?> container) {
         String selection = container.getSelection();
 
         // Put the selection in the clipboard
@@ -259,7 +259,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void ctrlV(TextContainer container) {
+    private static void ctrlV(DataContainer<?> container) {
         try {
 
             // Get clipboard into String
@@ -277,7 +277,7 @@ public class KeyEventHandler {
      * 
      * @param container the container
      */
-    private static void ctrlX(TextContainer container) {
+    private static void ctrlX(DataContainer<?> container) {
         String selection = container.getSelection();
 
         // Put the selected text into the clipboard
@@ -299,14 +299,14 @@ public class KeyEventHandler {
      * 
      */
 
-    private static int ctrlLeft(TextContainer container) {
+    private static int ctrlLeft(DataContainer<?> container) {
         return ctrlLeft(container, container.getTypeIndex());
     }
 
-    private static int ctrlLeft(TextContainer container, int start) {
+    private static int ctrlLeft(DataContainer<?> container, int start) {
 
         // Get the text up until the type index
-        String text = container.getContent().substring(0, start);
+        String text = container.getContentAsString().substring(0, start);
 
         // If there is no text, keep the same
         if (text.length() == 0) {
@@ -331,14 +331,14 @@ public class KeyEventHandler {
         return 0;
     }
 
-    private static int ctrlRight(TextContainer container) {
+    private static int ctrlRight(DataContainer<?> container) {
         return ctrlRight(container, container.getTypeIndex());
     }
 
-    private static int ctrlRight(TextContainer container, int start) {
+    private static int ctrlRight(DataContainer<?> container, int start) {
 
         // Get the text from index to end
-        String text = container.getContent().substring(start);
+        String text = container.getContentAsString().substring(start);
 
         // If there is no text, keep the same
         if (text.length() == 0) {

@@ -6,15 +6,15 @@ import javapp.objects.base.Focusable;
 
 public class TextField extends ScrollCanvas {
 
-    private TextDisplayer displayer;
-    private TextContainer container;
+    private DataDisplayer<String> displayer;
+    private DataContainer<String> container;
 
     public int scrolled = 0;
 
     public TextField(int x, int y, int w, int h) {
         super(w, h);
         setPosition(x, y);
-        displayer = new TextDisplayer(0, 0, w, h);
+        displayer = new DataDisplayer<String>(0, 0, w, h, s -> s);
         container = getDisplayer().getContainer();
         displayScrollbars(false);
     }
@@ -42,7 +42,7 @@ public class TextField extends ScrollCanvas {
         draw(displayer);
     }
 
-    public TextDisplayer getDisplayer() {
+    public DataDisplayer<String> getDisplayer() {
         return displayer;
     }
 

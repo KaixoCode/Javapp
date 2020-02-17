@@ -8,12 +8,12 @@ import javapp.objects.base.Focusable;
 
 public class TextArea extends ScrollCanvas {
 
-    private TextDisplayer displayer;
+    private DataDisplayer<String> displayer;
 
     public TextArea(int x, int y, int w, int h) {
         super(w, h);
         setPosition(x, y);
-        displayer = new TextDisplayer(0, 0, w, h);
+        displayer = new DataDisplayer<String>(0, 0, w, h, (s) -> s);
         getDisplayer().getContainer();
     }
 
@@ -73,7 +73,7 @@ public class TextArea extends ScrollCanvas {
             updateScroll();
     }
 
-    public TextDisplayer getDisplayer() {
+    public DataDisplayer<String> getDisplayer() {
         return displayer;
     }
 
