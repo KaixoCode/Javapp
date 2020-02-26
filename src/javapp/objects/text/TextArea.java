@@ -10,10 +10,19 @@ public class TextArea extends ScrollCanvas {
 
     private DataDisplayer<String> displayer;
 
+    public DataDisplayer<String>.Style style;
+
     public TextArea(int x, int y, int w, int h) {
         super(w, h);
         setPosition(x, y);
-        displayer = new DataDisplayer<String>(0, 0, w, h, (s) -> s);
+        displayer = new DataDisplayer<String>(0, 0, w, h, (s) -> s) {
+            @Override
+            public void keyPress(KeyEvent e) {
+                super.keyPress(e);
+                update = 10;
+            }
+        };
+        style = displayer.style;
         getDisplayer().getContainer();
     }
 
@@ -23,9 +32,12 @@ public class TextArea extends ScrollCanvas {
 
     @Override
     public void draw() {
+
         int newW = Math.max(displayer.getBiggestX(), getWidth());
         int newH = Math.max(displayer.getBiggestY(), getHeight());
-
+        if (style.wrap.wrap()) {
+            newW = getWidth();
+        }
         setCanvasSize(newW, newH);
         displayer.setSize(newW, newH);
 
@@ -41,31 +53,21 @@ public class TextArea extends ScrollCanvas {
         // Make sure the typepos is always on the screen by scrolling there if
         // necessary.
         int x = displayer.getTypeX();
-        int y = displayer.getTypeY() * (displayer.getTextleading() + displayer.getFont().getSize());
-        if (x > getScrolledX() + getWidth() - getDisplayer().getPaddingX() * 2) {
-            setScrollX(x - getWidth() + getDisplayer().getPaddingX() * 2);
-        } else if (x < getScrolledX() + displayer.getPaddingX()) {
-            setScrollX(x - displayer.getPaddingX());
+        int y = displayer.getTypeY();
+        if (x > getScrolledX() + getWidth() - getDisplayer().style.padding * 2) {
+            setScrollX(x - getWidth() + getDisplayer().style.padding * 2);
+        } else if (x < getScrolledX() + displayer.style.padding) {
+            setScrollX(x - displayer.style.padding);
         }
 
-        if (y > getScrolledY() + getHeight() - getDisplayer().getPaddingY() * 2) {
-            setScrollY(y - getHeight() + getDisplayer().getPaddingY() * 2);
-        } else if (y < getScrolledY()) {
-            setScrollY(y);
+        if (y > getScrolledY() + getHeight() - getDisplayer().style.padding * 2 - style.font.getSize()) {
+            setScrollY(y - getHeight() + getDisplayer().style.padding * 2 + style.font.getSize());
+        } else if (y < getScrolledY() + getDisplayer().style.padding) {
+            setScrollY(y - getDisplayer().style.padding);
         }
     }
 
     private int update = 0;
-
-    @Override
-    public void keyType(KeyEvent e) {
-        update = 10;
-    }
-
-    @Override
-    public void keyPress(KeyEvent e) {
-
-    }
 
     @Override
     public void drag(MouseEvent e) {
@@ -94,5 +96,13 @@ public class TextArea extends ScrollCanvas {
 
     public void setBackTabObject(Focusable o) {
         displayer.setBackTabObject(o);
+    }
+
+    public void setContent(String string) {
+        displayer.setContent(string);
+    }
+
+    public String getContent() {
+        return displayer.getContent();
     }
 }

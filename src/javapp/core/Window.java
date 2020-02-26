@@ -49,6 +49,7 @@ public abstract class Window extends Canvas {
 
         // Create the JPanel and JFrame
         createPanel();
+        frame = new JFrame();
 
         // Run setup
         setup();
@@ -176,7 +177,6 @@ public abstract class Window extends Canvas {
      * Creates the JFrame.
      */
     public void createFrame() {
-        frame = new JFrame();
 
         // Set the size using the insets, otherwise the frame will be a little too
         // small.

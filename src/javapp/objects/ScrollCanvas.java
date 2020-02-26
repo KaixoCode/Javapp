@@ -10,7 +10,7 @@ import java.util.EventObject;
 
 import javapp.core.Canvas;
 
-public class ScrollCanvas extends Canvas {
+public abstract class ScrollCanvas extends Canvas {
 
     private Scrollbar hor;
     private Scrollbar ver;
@@ -153,9 +153,4 @@ public class ScrollCanvas extends Canvas {
         // Add the event
         getEventHandler().add(e);
     }
-
-    public void draw() {
-
-    }
-
 }

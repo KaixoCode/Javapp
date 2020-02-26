@@ -255,39 +255,6 @@ public class DataContainer<T> {
         setTypeIndex(start);
     }
 
-    /**
-     * Returns the line where index is at in the content.
-     * 
-     * @param index the index in the content
-     * @return the line of the content that contains that index
-     */
-    public String getLineFromIndex(int index) {
-
-        // Get all the lines prior to the index
-        String[] strings = (content.substring(0, index) + " ").split("\n");
-
-        // Get the last line
-        String lastline = strings[strings.length - 1];
-
-        // Remove the added space
-        return lastline.substring(0, lastline.length() - 1);
-    }
-
-    /**
-     * Returns the line index give the index in the entire content.
-     * 
-     * @param index index in the content
-     * @return index of the line
-     */
-    public int getLineIndexFromIndex(int index) {
-
-        // Get all the lines prior to the given index
-        String[] strings = (content.substring(0, index) + " ").split("\n");
-
-        // Return the amount of lines
-        return strings.length - 1;
-    }
-
     public String getContentAsString() {
         return content;
     }

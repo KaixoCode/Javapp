@@ -4,11 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
 import javax.swing.Timer;
 
 import javapp.core.S;
@@ -20,9 +18,6 @@ public class DataDisplayer<T> extends Typeable {
     private int height;
     private int x = 100;
     private int y = 100;
-    private int paddingX = 5;
-    private int paddingY = 5;
-    private int textleading = 2;
 
     private int biggestX = 0;
     private int biggestY = 0;
@@ -33,11 +28,14 @@ public class DataDisplayer<T> extends Typeable {
     private int typeIndexX = 0;
     private int typeIndexY = 0;
 
-    private Font font;
-
     private Graphics2D graphics;
 
     private DataContainer<T> container;
+
+    /**
+     * All style stuff
+     */
+    public final Style style = new Style();
 
     /**
      * Create TextDisplayer.
@@ -62,7 +60,6 @@ public class DataDisplayer<T> extends Typeable {
      */
     public DataDisplayer(int x, int y, int w, int h, DataContainer<T> c) {
         this.container = c;
-        this.font = new Font("Roboto", Font.PLAIN, 16);
         this.width = w;
         this.height = h;
         this.x = x;
@@ -80,14 +77,6 @@ public class DataDisplayer<T> extends Typeable {
         return container;
     }
 
-    public int getPaddingX() {
-        return paddingX;
-    }
-
-    public int getPaddingY() {
-        return paddingY;
-    }
-
     public int getBiggestX() {
         return biggestX;
     }
@@ -100,8 +89,8 @@ public class DataDisplayer<T> extends Typeable {
     public void draw(Graphics2D g2d) {
         graphics = g2d;
 
-        g2d.setFont(getFont());
-        int textheight = getFont().getSize() + getTextleading();
+        g2d.setFont(style.font);
+        int textheight = style.font.getSize() + style.textleading;
 
         // Calculate the position of the type index
         int[] t = indexToPosition(container.getTypeIndex());
@@ -119,45 +108,82 @@ public class DataDisplayer<T> extends Typeable {
         int ey = e[1];
 
         // Display background
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(style.background);
         g2d.fillRect(0, 0, width, height);
 
         // Display selection
-        g2d.setColor(new Color(200, 220, 240));
+        g2d.setColor(style.selection);
         if (sy == ey) {
             g2d.fillRect(sx, sy, ex - sx, textheight);
         } else {
             g2d.fillRect(sx, sy, width, textheight);
-            g2d.fillRect(paddingX, sy + textheight, width, (ey - sy) - textheight);
-            g2d.fillRect(paddingX, ey, ex - paddingX, textheight);
+            g2d.fillRect(style.padding, sy + textheight, width, (ey - sy) - textheight);
+            g2d.fillRect(style.padding, ey, ex - style.padding, textheight);
         }
 
         // Display text in lines
-        g2d.setColor(Color.BLACK);
-        String[] lines = (container.getContent() + " ").split("\n");
+        g2d.setColor(style.color);
+        String[] lines = getSplit();
         biggestX = 0;
         biggestY = 0;
         for (int i = 0; i < lines.length; i++) {
 
             // Calculate the biggest X coordinate
-            int w = g2d.getFontMetrics().stringWidth(lines[i]);
+            int w = stringWidth(lines[i]);
             if (w > biggestX)
                 biggestX = w;
 
             // Draw the string
-            g2d.drawString(lines[i], paddingX, (textheight) * (i + 1) - getTextleading() / 3);
+            g2d.drawString(lines[i], style.padding, (textheight) * (i + 1) - style.textleading / 3);
         }
-        biggestX += paddingX * 2;
-        biggestY = lines.length * (textheight) + paddingY * 2;
+        biggestX += style.padding * 2;
+        biggestY = lines.length * (textheight) + style.padding * 2;
 
+        // Typeline
         g2d.setStroke(new BasicStroke(1));
         if (typeline < 75 && isFocused()) {
-            g2d.drawLine(typeIndexX, typeIndexY, typeIndexX, typeIndexY + getFont().getSize());
+            g2d.drawLine(typeIndexX, typeIndexY, typeIndexX, typeIndexY + style.font.getSize());
         }
 
         if (typeline > 150) {
             typeline = 0;
         }
+    }
+
+    public String[] getSplit() {
+        return getSplit(container.getContentAsString());
+    }
+
+    public String[] getSplit(String s) {
+        if (style.wrap.equals(Wrap.WORD)) {
+            String content = "";
+            String thisline = "";
+
+            String[] words = (s + ".").split(" ");
+            for (String word : words) {
+                if (word.contains("\n")) {
+                    String[] enters = (word + " ").split("\n");
+                    content += thisline;
+                    for (int i = 0; i < enters.length - 1; i++) {
+                        content += enters[i] + " \n";
+                    }
+                    thisline = enters[enters.length - 1];
+                } else if (stringWidth(thisline + word + "  ") >= getWidth()) {
+                    content += (thisline.length() > 0 ? thisline.substring(0, thisline.length() - 1) : " ") + " \n";
+                    thisline = word + " ";
+                } else {
+                    thisline += word + " ";
+                }
+            }
+            content += thisline.length() > 0 ? thisline.substring(0, thisline.length() - 1) : "";
+            return (content.substring(0, content.length() - 1) + " ").split("\n");
+        } else {
+            return (container.getContentAsString() + " ").split("\n");
+        }
+    }
+
+    private int stringWidth(String string) {
+        return graphics.getFontMetrics().stringWidth(string);
     }
 
     @Override
@@ -254,7 +280,7 @@ public class DataDisplayer<T> extends Typeable {
      * @param e key event
      */
     private void typeIndex(KeyEvent e) {
-        int textheight = getFont().getSize() + getTextleading();
+        int textheight = style.font.getSize() + style.textleading;
         int newi = container.getSelectStop();
 
         // Find the new index when pressing up arrow
@@ -290,19 +316,19 @@ public class DataDisplayer<T> extends Typeable {
     public int positionToIndex(int x, int y) {
 
         // Split the content of the container into lines
-        String[] lines = (container.getContent() + " ").split("\n");
+        String[] lines = getSplit();
 
         // Get the line index by dividing the y position minus the padding by the text
         // height. Also contrain the index to make sure no IndexOutOfBounds is thrown
-        int textheight = getFont().getSize() + getTextleading();
-        int line = (y - paddingY) / (textheight);
+        int textheight = style.font.getSize() + style.textleading;
+        int line = (y - style.padding) / (textheight);
         line = S.constrain(line, 0, lines.length - 1);
 
         // Increment the index up to the found line, do +1 because we split it on "\n"
         // so that isn't part of the lines anymore.
         int index = 0;
         for (int i = 0; i < line; i++) {
-            index += lines[i].length() + 1;
+            index += lines[i].length();
         }
 
         // Now calculate the index in the line by checking each character's x-position
@@ -315,7 +341,7 @@ public class DataDisplayer<T> extends Typeable {
 
             // If the current width of the line + half the width of the current character +
             // paddingX is bigger than the x, we've found our index.
-            if (nx + w / 2 + paddingX > x) {
+            if (nx + w / 2 + style.padding > x) {
                 return index + i;
             }
 
@@ -337,13 +363,45 @@ public class DataDisplayer<T> extends Typeable {
     public int[] indexToPosition(int index) {
 
         // Get the font metrics of the Graphics2D
-        FontMetrics m = graphics.getFontMetrics();
-        int textheight = getFont().getSize() + getTextleading();
+        int textheight = style.font.getSize() + style.textleading;
 
         // Calculate the position using the index and the font metrics
-        int ex = paddingX + m.stringWidth(container.getLineFromIndex(index));
-        int ey = paddingY + container.getLineIndexFromIndex(index) * textheight;
+        int ex = style.padding + stringWidth(getLineFromIndex(index));
+        int ey = style.padding + getLineIndexFromIndex(index) * textheight;
         return new int[] { ex, ey };
+    }
+
+    /**
+     * Returns the line where index is at in the content.
+     * 
+     * @param index the index in the content
+     * @return the line of the content that contains that index
+     */
+    public String getLineFromIndex(int index) {
+
+        // Get all the lines prior to the index
+        String[] strings = getSplit(container.getContentAsString().substring(0, index));
+
+        // Get the last line
+        String lastline = strings[strings.length - 1];
+
+        // Remove the added space
+        return lastline.substring(0, lastline.length() - 1);
+    }
+
+    /**
+     * Returns the line index give the index in the entire content.
+     * 
+     * @param index index in the content
+     * @return index of the line
+     */
+    public int getLineIndexFromIndex(int index) {
+
+        // Get all the lines prior to the given index
+        String[] strings = getSplit(container.getContentAsString().substring(0, index));
+
+        // Return the amount of lines
+        return strings.length - 1;
     }
 
     @Override
@@ -365,17 +423,41 @@ public class DataDisplayer<T> extends Typeable {
         return typeIndexY;
     }
 
-    public int getTextleading() {
-        return textleading;
-    }
-
-    public Font getFont() {
-        return font;
-    }
-
     public void focus() {
         typeline = 0;
         super.focus();
+    }
+
+    public void setContent(T t) {
+        container.setContent(t.toString());
+    }
+
+    public class Style {
+        public Color background = new Color(255, 255, 255);
+        public Color selection = new Color(200, 220, 240);
+        public Color color = new Color(0, 0, 0);
+        public Font font = new Font("Roboto", Font.PLAIN, 16);
+        public Wrap wrap = Wrap.WORD;
+        public int padding = 5;
+        public int textleading = 2;
+    }
+
+    public enum Wrap {
+        CHAR(true), WORD(true), NONE(false);
+
+        private boolean wrap;
+
+        private Wrap(boolean r) {
+            wrap = r;
+        }
+
+        public boolean wrap() {
+            return wrap;
+        }
+    }
+
+    public T getContent() {
+        return container.getContent();
     }
 
 }

@@ -16,7 +16,7 @@ import javapp.objects.base.Focusable;
 import javapp.objects.base.Hoverable;
 import javapp.objects.base.Typeable;
 
-public class Canvas extends Typeable implements EventDistributer {
+public abstract class Canvas extends Typeable implements EventDistributer {
 
     // The size of the canvas
     private int width;
@@ -167,6 +167,9 @@ public class Canvas extends Typeable implements EventDistributer {
     @Override
     public void draw(Graphics2D g2d) {
 
+        // All draw stuff for when extending this class
+        draw();
+
         // Put the image on the JPanel
         BufferedImage image = getImage();
         g2d.drawImage(image, x, y, null);
@@ -245,18 +248,21 @@ public class Canvas extends Typeable implements EventDistributer {
     @Override
     public void keyPress(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void keyRelease(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void keyType(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
+
+    public abstract void draw();
+
 }
