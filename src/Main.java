@@ -142,8 +142,8 @@ public class Main extends Window {
 
         draw(canvas);
 
-//        draw(verbar);
-//        draw(horbar);
+        draw(verbar);
+        draw(horbar);
 //        for (DragThing b : a) {
 //            draw(b);
 //        }

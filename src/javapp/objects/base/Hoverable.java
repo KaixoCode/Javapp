@@ -1,6 +1,7 @@
 package javapp.objects.base;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 public abstract class Hoverable implements Drawable {
 
@@ -102,4 +103,6 @@ public abstract class Hoverable implements Drawable {
     final public boolean isHovering() {
         return hovering;
     }
+
+    public abstract void mouseWheel(MouseWheelEvent event);
 }

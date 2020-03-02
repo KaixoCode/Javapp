@@ -16,6 +16,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -117,7 +119,11 @@ public abstract class Window extends Canvas {
                 getEventHandler().add(arg0);
             }
         });
-
+        panel.addMouseWheelListener(new MouseWheelListener() {
+            public void mouseWheelMoved(MouseWheelEvent arg0) {
+                getEventHandler().add(arg0);
+            }
+        });
         panel.addMouseMotionListener(new MouseMotionListener() {
             public void mouseDragged(MouseEvent arg0) {
                 getEventHandler().add(arg0);

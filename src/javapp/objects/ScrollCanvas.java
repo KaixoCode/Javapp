@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.util.EventObject;
 
@@ -69,6 +70,11 @@ public abstract class ScrollCanvas extends Canvas {
     }
 
     @Override
+    public void mouseWheel(MouseWheelEvent e) {
+        ver.scroll((int) (e.getPreciseWheelRotation() * 10));
+    }
+
+    @Override
     final public void draw(Graphics2D g) {
 
         // All draw stuff for when extending this class
@@ -92,8 +98,8 @@ public abstract class ScrollCanvas extends Canvas {
 
         // Offset the scrollbars so the right mouse coords get send to them when
         // handling events (I know, bit cheaty...)
-        hor.setPosition(0, getHeight() - 25 + ver.getValue());
-        ver.setPosition(getWidth() - 25 + hor.getValue(), 0);
+        hor.setPosition(hor.getValue(), getHeight() - 25 + ver.getValue());
+        ver.setPosition(getWidth() - 25 + hor.getValue(), ver.getValue());
 
         // Handle all the events
         getEventHandler().handleEvents();

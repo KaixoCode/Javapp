@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import javapp.data.ColorTransition;
 import javapp.objects.base.Focusable;
@@ -102,5 +103,11 @@ public class DragThing extends Focusable {
     public void setPosition(int i, int j) {
         x = i;
         y = j;
+    }
+
+    @Override
+    public void mouseWheel(MouseWheelEvent event) {
+        // TODO Auto-generated method stub
+        
     }
 }

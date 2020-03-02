@@ -83,12 +83,13 @@ public class EventHandler {
         // Do events
         while (eventQueue.size() > 0) {
             EventObject o = eventQueue.get(0);
-            if (o instanceof MouseEvent) {
+
+            if (o instanceof MouseWheelEvent) {
+                mouseWheelEvent((MouseWheelEvent) o);
+            } else if (o instanceof MouseEvent) {
                 mouseEvent((MouseEvent) o);
             } else if (o instanceof KeyEvent) {
                 keyEvent((KeyEvent) o);
-            } else if (o instanceof MouseWheelEvent) {
-                mouseWheelEvent((MouseWheelEvent) o);
             }
             eventQueue.remove(o);
         }
@@ -292,6 +293,10 @@ public class EventHandler {
     // Mouse wheel events
     private void mouseWheelEvent(MouseWheelEvent event) {
 
+        // If the mouse is over an object, click on that object
+        if (hovering != null) {
+            (hovering).mouseWheel(event);
+        }
     }
 
 }

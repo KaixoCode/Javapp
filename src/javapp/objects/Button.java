@@ -3,6 +3,7 @@ package javapp.objects;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import javapp.core.Method;
 import javapp.graphics.ButtonGraphics;
@@ -217,6 +218,12 @@ public class Button extends Focusable {
 
     @Override
     public void drag(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseWheel(MouseWheelEvent event) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

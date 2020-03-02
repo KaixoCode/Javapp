@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -237,6 +238,11 @@ public abstract class Canvas extends Typeable implements EventDistributer {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseWheel(MouseWheelEvent e) {
 
     }
 

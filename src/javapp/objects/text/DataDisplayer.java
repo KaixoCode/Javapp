@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+
 import javax.swing.Timer;
 
 import javapp.core.S;
@@ -458,6 +460,12 @@ public class DataDisplayer<T> extends Typeable {
 
     public T getContent() {
         return container.getContent();
+    }
+
+    @Override
+    public void mouseWheel(MouseWheelEvent event) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
