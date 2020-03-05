@@ -17,8 +17,8 @@ public class TextArea extends ScrollCanvas {
         setPosition(x, y);
         displayer = new DataDisplayer<String>(0, 0, w, h, (s) -> s) {
             @Override
-            public void keyPress(KeyEvent e) {
-                super.keyPress(e);
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
                 update = 10;
             }
         };
@@ -70,7 +70,7 @@ public class TextArea extends ScrollCanvas {
     private int update = 0;
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
         if (displayer.isFocused())
             updateScroll();
     }

@@ -101,51 +101,61 @@ public abstract class Window extends Canvas {
         panel.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseClicked(arg0);
             }
 
             public void mouseEntered(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseEntered();
             }
 
             public void mouseExited(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseExited();
             }
 
             public void mousePressed(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mousePressed(arg0);
             }
 
             public void mouseReleased(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseReleased(arg0);
             }
         });
         panel.addMouseWheelListener(new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseWheel(arg0);
             }
         });
         panel.addMouseMotionListener(new MouseMotionListener() {
             public void mouseDragged(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseDragged(arg0);
             }
 
             public void mouseMoved(MouseEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.mouseMoved(arg0);
             }
         });
 
         panel.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent arg0) {
                 getEventHandler().add(arg0);
-
+                tempThis.keyPressed(arg0);
             }
 
             public void keyReleased(KeyEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.keyReleased(arg0);
             }
 
             public void keyTyped(KeyEvent arg0) {
                 getEventHandler().add(arg0);
+                tempThis.keyTyped(arg0);
             }
         });
 
@@ -191,15 +201,16 @@ public abstract class Window extends Canvas {
         int h = getHeight() + (insets.top + insets.bottom);
         frame.setSize(w, h);
         frame.setPreferredSize(new Dimension(w, h));
-        frame.setLocationRelativeTo(null);
 
         // Make sure it closes properly
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Add the panel
         frame.add(panel);
+        frame.setLocationRelativeTo(null);
         frame.pack();
         frame.setVisible(true);
+
     }
 
     /**

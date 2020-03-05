@@ -71,7 +71,7 @@ public abstract class ScrollCanvas extends Canvas {
 
     @Override
     public void mouseWheel(MouseWheelEvent e) {
-        ver.scroll((int) (e.getPreciseWheelRotation() * 10));
+        ver.scroll((float) (e.getPreciseWheelRotation() * 20));
     }
 
     @Override

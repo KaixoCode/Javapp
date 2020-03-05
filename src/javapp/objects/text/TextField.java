@@ -20,9 +20,9 @@ public class TextField extends ScrollCanvas {
         super(w, h);
         setPosition(x, y);
         displayer = new DataDisplayer<String>(0, 0, w, h, s -> s) {
-            public void keyType(KeyEvent e) {
+            public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() != '\n') {
-                    super.keyType(e);
+                    super.keyTyped(e);
                 } else {
                     submit = true;
                 }

@@ -206,7 +206,7 @@ public class EventHandler {
 
         // If the mouse is over an object, click on that object
         if (focused != null && focused instanceof Focusable) {
-            ((Focusable) focused).drag(event);
+            ((Focusable) focused).mouseDragged(event);
         }
     }
 
@@ -273,20 +273,20 @@ public class EventHandler {
 
     private void keyPressed(KeyEvent event) {
         if (focused != null && focused instanceof Typeable) {
-            ((Typeable) focused).keyPress(event);
+            ((Typeable) focused).keyPressed(event);
         }
 
     }
 
     private void keyReleased(KeyEvent event) {
         if (focused != null && focused instanceof Typeable) {
-            ((Typeable) focused).keyRelease(event);
+            ((Typeable) focused).keyReleased(event);
         }
     }
 
     private void keyTyped(KeyEvent event) {
         if (focused != null && focused instanceof Typeable) {
-            ((Typeable) focused).keyType(event);
+            ((Typeable) focused).keyTyped(event);
         }
     }
 

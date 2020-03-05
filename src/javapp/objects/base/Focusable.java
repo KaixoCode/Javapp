@@ -56,7 +56,7 @@ public abstract class Focusable extends Pressable {
      * 
      * @param e event
      */
-    public abstract void drag(MouseEvent e);
+    public abstract void mouseDragged(MouseEvent e);
 
     /**
      * Tab to the tabobject

@@ -217,7 +217,7 @@ public class Button extends Focusable {
     }
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
     }
 
     @Override

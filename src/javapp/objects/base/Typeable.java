@@ -4,9 +4,9 @@ import java.awt.event.KeyEvent;
 
 public abstract class Typeable extends Focusable {
 
-    public abstract void keyPress(KeyEvent e);
+    public abstract void keyPressed(KeyEvent e);
 
-    public abstract void keyRelease(KeyEvent e);
+    public abstract void keyReleased(KeyEvent e);
 
-    public abstract void keyType(KeyEvent e);
+    public abstract void keyTyped(KeyEvent e);
 }

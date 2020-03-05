@@ -21,7 +21,7 @@ public class Scrollbar extends Focusable {
 
     private int pressX = 0;
     private int pressY = 0;
-    private int presspos = 0;
+    private float presspos = 0;
 
     private int padding = 2;
 
@@ -89,7 +89,7 @@ public class Scrollbar extends Focusable {
 
     public void setRealSize(int r) {
         realsize = r;
-        position = S.constrain(position, 0, realsize - size);
+        position = S.constrain(position, 0f, (float) realsize - size);
     }
 
     public boolean visible() {
@@ -98,10 +98,10 @@ public class Scrollbar extends Focusable {
 
     public void setSize(int r) {
         size = r;
-        position = S.constrain(position, 0, realsize - size);
+        position = S.constrain(position, 0f, (float) realsize - size);
     }
 
-    public void scroll(int amt) {
+    public void scroll(float amt) {
         position = S.constrain(position + amt, 0, realsize - size);
     }
 
@@ -180,7 +180,7 @@ public class Scrollbar extends Focusable {
     }
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
         if (type == VERTICAL) {
             position = (int) S.mapstrain((e.getY() - pressY - y) + presspos, 0, size - barsize, 0, realsize - size);
         } else {
@@ -189,7 +189,7 @@ public class Scrollbar extends Focusable {
     }
 
     public int getValue() {
-        return position;
+        return (int) position;
     }
 
     @Override
@@ -212,6 +212,6 @@ public class Scrollbar extends Focusable {
 
     @Override
     public void mouseWheel(MouseWheelEvent event) {
-        scroll((int) (event.getPreciseWheelRotation() * 10));
+        scroll((float) (event.getPreciseWheelRotation() * 30));
     }
 }

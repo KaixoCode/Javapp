@@ -189,24 +189,24 @@ public class DataDisplayer<T> extends Typeable {
     }
 
     @Override
-    public void keyPress(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         typeline = 0;
         KeyEventHandler.keyPress(e, container);
         typeIndex(e);
     }
 
     @Override
-    public void keyRelease(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         KeyEventHandler.keyRelease(e, container);
     }
 
     @Override
-    public void keyType(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
         KeyEventHandler.keyType(e, container);
     }
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
         container.setSelectStop(positionToIndex(e.getX() - x, e.getY() - y));
         updateTypeX();
     }

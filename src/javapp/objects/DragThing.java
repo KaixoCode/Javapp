@@ -56,7 +56,7 @@ public class DragThing extends Focusable {
     }
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
         this.x = e.getX() + dx;
         this.y = e.getY() + dy;
     }

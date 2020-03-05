@@ -225,7 +225,6 @@ public abstract class Canvas extends Typeable implements EventDistributer {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
@@ -238,7 +237,6 @@ public abstract class Canvas extends Typeable implements EventDistributer {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
     }
 
     @Override
@@ -247,24 +245,24 @@ public abstract class Canvas extends Typeable implements EventDistributer {
     }
 
     @Override
-    public void drag(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) {
 
     }
 
     @Override
-    public void keyPress(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void keyRelease(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void keyType(KeyEvent e) {
+    public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
 
     }
