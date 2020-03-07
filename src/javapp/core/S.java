@@ -156,4 +156,20 @@ public final class S {
         }
         return null;
     }
+
+    /**
+     * Lerps the value a towards b by f percent
+     * 
+     * @param a initial value
+     * @param b target value
+     * @param f percentage
+     * @return the lerped value
+     */
+    public static double lerp(double a, double b, double f) {
+        return (a * (1 - f) + b * f);
+    }
+
+    public static float lerp(float a, float b, float f) {
+        return (a * (1 - f) + b * f);
+    }
 }
