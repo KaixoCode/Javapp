@@ -180,7 +180,7 @@ public class DataDisplayer<T> extends Typeable {
             content += thisline.length() > 0 ? thisline.substring(0, thisline.length() - 1) : "";
             return (content.substring(0, content.length() - 1) + " ").split("\n");
         } else {
-            return (container.getContentAsString() + " ").split("\n");
+            return (s + " ").split("\n");
         }
     }
 
@@ -330,7 +330,7 @@ public class DataDisplayer<T> extends Typeable {
         // so that isn't part of the lines anymore.
         int index = 0;
         for (int i = 0; i < line; i++) {
-            index += lines[i].length();
+            index += lines[i].length() + 1;
         }
 
         // Now calculate the index in the line by checking each character's x-position
@@ -439,7 +439,7 @@ public class DataDisplayer<T> extends Typeable {
         public Color selection = new Color(200, 220, 240);
         public Color color = new Color(0, 0, 0);
         public Font font = new Font("Roboto", Font.PLAIN, 16);
-        public Wrap wrap = Wrap.WORD;
+        public Wrap wrap = Wrap.NONE;
         public int padding = 5;
         public int textleading = 2;
     }
@@ -465,7 +465,7 @@ public class DataDisplayer<T> extends Typeable {
     @Override
     public void mouseWheel(MouseWheelEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
