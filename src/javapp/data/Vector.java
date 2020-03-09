@@ -65,4 +65,8 @@ public class Vector<I extends Number> {
         res.z = S.mult(v1.z, o);
         return res;
     }
+
+    public String toString() {
+        return "[" + x + ", " + y + ", " + z + "]";
+    }
 }

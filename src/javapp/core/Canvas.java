@@ -1,5 +1,6 @@
 package javapp.core;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -136,6 +137,25 @@ public abstract class Canvas extends Typeable implements EventDistributer {
      */
     public void draw(Drawable drawable) {
         getDrawables().add(drawable);
+    }
+
+    public void background(Color c) {
+        draw(g2d -> {
+            g2d.setColor(c);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        });
+    }
+
+    public void rect(int x, int y, int w, int h) {
+        draw(g2d -> {
+            g2d.fillRect(x, y, w, h);
+        });
+    }
+
+    public void fill(Color c) {
+        draw(g2d -> {
+            g2d.setColor(c);
+        });
     }
 
     /**

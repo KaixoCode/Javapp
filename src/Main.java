@@ -19,17 +19,13 @@ public class Main extends Window {
         super(w, h);
     }
 
-    Transition<Vector<Double>> position;
-
-    // (a * (1 - f) + b * f);
+    VectorTransition position;
 
     public void setup() {
-        position = new VectorTransition<Double>(0.0, 0.0, 0.05);
-                
+        position = new VectorTransition(0, 0, 0.02);
     }
 
     public void draw() {
-
         draw((g2d) -> {
             g2d.setColor(Color.BLACK);
             g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -38,14 +34,13 @@ public class Main extends Window {
 
         Vector<Double> pos = position.getValue();
         draw(g2d -> g2d.fillOval(pos.x.intValue() - 25, pos.y.intValue() - 25, 50, 50));
-
     }
 
     public void mouseMoved(MouseEvent e) {
-        position.morph(new Vector<Double>((double) e.getX(), (double) e.getY()));
+        position.morph(new Vector<Double>((double) e.getX(), ((double) e.getY())));
     }
 
     public void mouseDragged(MouseEvent e) {
-        position.morph(new Vector<Double>((double) e.getX(), (double) e.getY()));
+        position.morph(new Vector<Double>((double) e.getX(), ((double) e.getY())));
     }
 }
