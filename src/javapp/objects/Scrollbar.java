@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-import javapp.core.S;
+import javapp.core.Functions;
 import javapp.data.ColorTransition;
 import javapp.objects.base.Focusable;
 
@@ -89,7 +89,7 @@ public class Scrollbar extends Focusable {
 
     public void setRealSize(int r) {
         realsize = r;
-        position = S.constrain(position, 0f, (float) realsize - size);
+        position = Functions.constrain(position, 0f, (float) realsize - size);
     }
 
     public boolean visible() {
@@ -98,11 +98,11 @@ public class Scrollbar extends Focusable {
 
     public void setSize(int r) {
         size = r;
-        position = S.constrain(position, 0f, (float) realsize - size);
+        position = Functions.constrain(position, 0f, (float) realsize - size);
     }
 
     public void scroll(float amt) {
-        position = S.constrain(position + amt, 0, realsize - size);
+        position = Functions.constrain(position + amt, 0, realsize - size);
     }
 
     @Override
@@ -182,9 +182,9 @@ public class Scrollbar extends Focusable {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (type == VERTICAL) {
-            position = (int) S.mapstrain((e.getY() - pressY - y) + presspos, 0, size - barsize, 0, realsize - size);
+            position = (int) Functions.mapstrain((e.getY() - pressY - y) + presspos, 0, size - barsize, 0, realsize - size);
         } else {
-            position = (int) S.mapstrain((e.getX() - pressX - x) + presspos, 0, size - barsize, 0, realsize - size);
+            position = (int) Functions.mapstrain((e.getX() - pressX - x) + presspos, 0, size - barsize, 0, realsize - size);
         }
     }
 
@@ -207,7 +207,7 @@ public class Scrollbar extends Focusable {
     }
 
     public void setScroll(int amt) {
-        position = S.constrain(amt, 0, realsize - size);
+        position = Functions.constrain(amt, 0, realsize - size);
     }
 
     @Override

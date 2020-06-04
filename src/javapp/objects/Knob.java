@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 
-import javapp.core.S;
+import javapp.core.Functions;
 import javapp.objects.base.Drawable;
 import javapp.objects.base.Focusable;
 
@@ -82,7 +82,7 @@ public class Knob extends Focusable {
         if (turning) {
             double sensitivity = speed;
             double add = ((pressmouseY - e.getY()) * sensitivity) / size;
-            value = S.constrain(value + add, 0, 1);
+            value = Functions.constrain(value + add, 0, 1);
             bot.mouseMove(absMouseX, absMouseY);
         }
     }
@@ -166,7 +166,7 @@ public class Knob extends Focusable {
     @Override
     public void mouseWheel(MouseWheelEvent e) {
         if (isHovering()) {
-            value = S.constrain(value + (double) e.getPreciseWheelRotation() * (double) 0.01, 0, 1);
+            value = Functions.constrain(value + (double) e.getPreciseWheelRotation() * (double) 0.01, 0, 1);
         }
     }
 

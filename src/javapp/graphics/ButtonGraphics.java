@@ -27,6 +27,16 @@ public class ButtonGraphics extends PressableGraphics {
         text = "Button";
     }
 
+    public ButtonGraphics(Pressable c, String t) {
+        super(c);
+        stroke = new BasicStroke(2);
+        font = new Font("Roboto", Font.PLAIN, 16);
+        border = Color.BLACK;
+        fill = new Color(200, 200, 200);
+        color = new Color(0, 0, 0);
+        text = t;
+    }
+
     @Override
     public void drawPressed(Graphics2D g2d, int width, int height) {
         g2d.setColor(border.darker());

@@ -11,7 +11,7 @@ import java.awt.event.MouseWheelEvent;
 
 import javax.swing.Timer;
 
-import javapp.core.S;
+import javapp.core.Functions;
 import javapp.objects.base.Typeable;
 
 public class DataDisplayer<T> extends Typeable {
@@ -324,7 +324,7 @@ public class DataDisplayer<T> extends Typeable {
         // height. Also contrain the index to make sure no IndexOutOfBounds is thrown
         int textheight = style.font.getSize() + style.textleading;
         int line = (y - style.padding) / (textheight);
-        line = S.constrain(line, 0, lines.length - 1);
+        line = Functions.constrain(line, 0, lines.length - 1);
 
         // Increment the index up to the found line, do +1 because we split it on "\n"
         // so that isn't part of the lines anymore.

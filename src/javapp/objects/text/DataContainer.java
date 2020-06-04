@@ -1,6 +1,6 @@
 package javapp.objects.text;
 
-import javapp.core.S;
+import javapp.core.Functions;
 
 public class DataContainer<T> {
 
@@ -70,6 +70,7 @@ public class DataContainer<T> {
      */
     public void setContent(String content) {
         this.content = content;
+        constrainIndice();
     }
 
     /**
@@ -87,7 +88,7 @@ public class DataContainer<T> {
      * @param selectStop last index
      */
     public void setSelectStop(int selectStop) {
-        this.selectStop = S.constrain(selectStop, 0, length());
+        this.selectStop = Functions.constrain(selectStop, 0, length());
     }
 
     /**
@@ -105,7 +106,7 @@ public class DataContainer<T> {
      * @param selectStrt first index
      */
     public void setSelectStart(int selectStrt) {
-        this.selectStrt = S.constrain(selectStrt, 0, length());
+        this.selectStrt = Functions.constrain(selectStrt, 0, length());
     }
 
     /**
@@ -248,14 +249,25 @@ public class DataContainer<T> {
      * @param end   end index
      */
     public void remove(int start, int end) {
-        start = S.constrain(start, 0, length());
-        end = S.constrain(end, 0, length());
+        start = Functions.constrain(start, 0, length());
+        end = Functions.constrain(end, 0, length());
 
         content = content.substring(0, start) + content.substring(end);
         setTypeIndex(start);
     }
 
+    /**
+     * Returns the content as a String
+     * 
+     * @return content as string
+     */
     public String getContentAsString() {
         return content;
+    }
+
+    // Makes sure the indice are within bounds of the string
+    private void constrainIndice() {
+        selectStrt = Functions.constrain(selectStrt, 0, content.length());
+        selectStop = Functions.constrain(selectStop, 0, content.length());
     }
 }

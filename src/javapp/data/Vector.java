@@ -1,6 +1,6 @@
 package javapp.data;
 
-import javapp.core.S;
+import javapp.core.Functions;
 
 public class Vector<I extends Number> {
 
@@ -22,47 +22,47 @@ public class Vector<I extends Number> {
     }
 
     public Vector<I> add(Vector<I> other) {
-        this.x = S.add(this.x, other.x);
-        this.y = S.add(this.y, other.y);
-        this.z = S.add(this.z, other.z);
+        this.x = Functions.add(this.x, other.x);
+        this.y = Functions.add(this.y, other.y);
+        this.z = Functions.add(this.z, other.z);
         return this;
     }
 
     public Vector<I> mult(Vector<I> other) {
-        this.x = S.mult(this.x, other.x);
-        this.y = S.mult(this.y, other.y);
-        this.z = S.mult(this.z, other.z);
+        this.x = Functions.mult(this.x, other.x);
+        this.y = Functions.mult(this.y, other.y);
+        this.z = Functions.mult(this.z, other.z);
         return this;
     }
 
     public Vector<I> mult(I other) {
-        this.x = S.mult(this.x, other);
-        this.y = S.mult(this.y, other);
-        this.z = S.mult(this.z, other);
+        this.x = Functions.mult(this.x, other);
+        this.y = Functions.mult(this.y, other);
+        this.z = Functions.mult(this.z, other);
         return this;
     }
 
     public static <I extends Number> Vector<I> add(Vector<I> v1, Vector<I> v2) {
         Vector<I> res = new Vector<I>();
-        res.x = S.add(v1.x, v2.x);
-        res.y = S.add(v1.y, v2.y);
-        res.z = S.add(v1.z, v2.z);
+        res.x = Functions.add(v1.x, v2.x);
+        res.y = Functions.add(v1.y, v2.y);
+        res.z = Functions.add(v1.z, v2.z);
         return res;
     }
 
     public static <I extends Number> Vector<I> mult(Vector<I> v1, Vector<I> v2) {
         Vector<I> res = new Vector<I>();
-        res.x = S.mult(v1.x, v2.x);
-        res.y = S.mult(v1.y, v2.y);
-        res.z = S.mult(v1.z, v2.z);
+        res.x = Functions.mult(v1.x, v2.x);
+        res.y = Functions.mult(v1.y, v2.y);
+        res.z = Functions.mult(v1.z, v2.z);
         return res;
     }
 
     public static <I extends Number> Vector<I> mult(Vector<I> v1, I o) {
         Vector<I> res = new Vector<I>();
-        res.x = S.mult(v1.x, o);
-        res.y = S.mult(v1.y, o);
-        res.z = S.mult(v1.z, o);
+        res.x = Functions.mult(v1.x, o);
+        res.y = Functions.mult(v1.y, o);
+        res.z = Functions.mult(v1.z, o);
         return res;
     }
 
